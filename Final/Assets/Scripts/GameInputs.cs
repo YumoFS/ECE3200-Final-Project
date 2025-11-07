@@ -25,4 +25,9 @@ public class GameInputs : MonoBehaviour
     {
         return playerInputActions.Player.Jump.triggered;
     }
+
+    public bool IsInteract()
+    {
+        return playerInputActions.Player.Interact.triggered;
+    }
 }

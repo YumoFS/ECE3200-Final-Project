@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public bool isAlive;
+
     [SerializeField] private GameInputs gameInputs;
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private float jumpForce = 15f;
@@ -17,6 +20,11 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
+    private void Start()
+    {
+        isAlive = true;
+    }
+
     private void Update()
     {
         HandleMovement();
@@ -26,6 +34,16 @@ public class Player : MonoBehaviour
         {
             jumpNumCount = 0;
         }
+
+        if (!isAlive)
+        {
+            deadAction();
+        }
+    }
+
+    private void deadAction()
+    {
+        throw new NotImplementedException();
     }
 
     private void HandleMovement()

@@ -397,10 +397,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d9c62dc916f15249a4c41dc79abb80c, type: 3}
+  m_Script: {fileID: 11500000, guid: 31eec18c546025d4da216b4da7636c1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPlayer: {fileID: 1069970774}
+  target: {fileID: 1069970774}
+  smoothSpeed: 0.125
+  offset: {x: 0, y: 2, z: -10}
+  useBounds: 0
+  minX: -10
+  maxX: 10
+  minY: -5
+  maxY: 5
+  usePrediction: 0
+  predictionStrength: 0.5
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,6 +524,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc71db5ac8910a745a8576a3cad30774, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isAlive: 0
   gameInputs: {fileID: 144100401}
   moveSpeed: 10
   jumpForce: 10
