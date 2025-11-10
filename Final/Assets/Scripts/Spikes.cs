@@ -8,6 +8,7 @@ public class Spikes : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        player.deadReason = "Spikes";
         player.isAlive = false;
         Debug.Log("Is triggered");
     }

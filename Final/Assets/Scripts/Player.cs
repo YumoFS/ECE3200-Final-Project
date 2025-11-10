@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,15 +5,21 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public bool isAlive;
+    public string deadReason;
 
     [SerializeField] private GameInputs gameInputs;
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private float jumpForce = 15f;
     [SerializeField] private int jumpNumMax = 2;
     [SerializeField] private Vector3 playerInitialPosition;
+    
+    // 交互相关
+    [SerializeField] private float interactionRange = 1.5f;
+    [SerializeField] private LayerMask interactableLayer;
 
     private Rigidbody2D rb;
     private int jumpNumCount;
+    private Interactable currentInteractable;
 
     private void Awake()
     {
@@ -29,39 +34,130 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (!isAlive){
+            DeadAction();
+        }
+
         HandleMovement();
         HandleJump();
+        CheckForInteractables();
+        HandleInteraction();
 
-        if (rb.velocity.y == 0)
+        if (Mathf.Abs(rb.velocity.y) < 0.01f)
         {
             jumpNumCount = 0;
         }
+    }
 
-        if (!isAlive)
+    private void CheckForInteractables()
+    {
+        // 使用圆形检测周围的交互物体
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(
+            transform.position, 
+            interactionRange, 
+            interactableLayer
+        );
+        
+        Interactable nearestInteractable = null;
+        float nearestDistance = float.MaxValue;
+        
+        foreach (var hitCollider in hitColliders)
         {
-            deadAction();
+            Interactable interactable = hitCollider.GetComponent<Interactable>();
+            if (interactable != null)
+            {
+                float distance = Vector2.Distance(transform.position, hitCollider.transform.position);
+                if (distance < nearestDistance)
+                {
+                    nearestDistance = distance;
+                    nearestInteractable = interactable;
+                }
+            }
+        }
+        
+        currentInteractable = nearestInteractable;
+    }
+    
+    private void HandleInteraction()
+    {
+        if (gameInputs.IsInteractPressed() && currentInteractable != null)
+        {
+            currentInteractable.Interact();
         }
     }
 
-    private void deadAction()
+    private void DeadAction()
     {
+        switch (deadReason)
+        {
+            case "Spikes":
+                DeadBySpikes();
+                break;
+            case "IronVirgin":
+                DeadByIronVirgin();
+                break;
+        }
         transform.position = playerInitialPosition;
+        rb.velocity = Vector3.zero;
         isAlive = true;
     }
 
+    private void DeadBySpikes()
+    {
+        
+    }
+
+    private void DeadByIronVirgin()
+    {
+
+    }
+
+    // private void HandleMovement()
+    // {
+    //     Vector2 inputVector = gameInputs.GetmovementVectorNormalize();
+    //     Vector3 moveDir = new Vector3(inputVector.x, 0f, 0f);
+
+    //     float moveDistance = moveSpeed * Time.deltaTime;
+        
+    //     // 修复碰撞检测逻辑
+    //     Vector2 playerSize = GetComponent<Collider2D>().bounds.size * 0.9f; // 使用实际碰撞器大小，稍微缩小一点避免卡住
+        
+    //     // 只在水平方向检测碰撞
+    //     if (moveDir.x != 0)
+    //     {
+    //         // 使用Raycast而不是CapsuleCast，更简单可靠
+    //         RaycastHit2D hit = Physics2D.Raycast(
+    //             transform.position, 
+    //             moveDir, 
+    //             playerSize.x / 2 + moveDistance, 
+    //             GetGroundLayerMask()
+    //         );
+            
+    //         // 如果没有碰撞，则可以移动
+    //         if (hit.collider == null)
+    //         {
+    //             transform.position += moveDir * moveDistance;
+    //         }
+    //         else
+    //         {
+    //             Debug.Log($"碰撞阻碍移动，碰撞对象: {hit.collider.gameObject.name}");
+    //         }
+    //     }
+    // }
+
+    // // 获取地面图层掩码（排除玩家自身）
+    // private LayerMask GetGroundLayerMask()
+    // {
+    //     // 返回所有图层除了玩家图层
+    //     return ~(1 << gameObject.layer);
+    // }
+    
     private void HandleMovement()
     {
         Vector2 inputVector = gameInputs.GetmovementVectorNormalize();
-        Vector3 moveDir = new Vector3(inputVector.x, inputVector.y, 0f);
-
-        float moveDistance = moveSpeed * Time.deltaTime;
-        Vector2 playerSize = new Vector2(0.3f, 0.3f);
-        bool canMove = !Physics2D.CapsuleCast(transform.position, playerSize, CapsuleDirection2D.Vertical, 0f, inputVector, 0.01f);
-
-        if (!canMove)
-        {
-            transform.position += moveDir * moveDistance;
-        }
+        
+        // 直接设置水平速度，让物理引擎处理碰撞
+        rb.velocity = new Vector2(inputVector.x * moveSpeed, rb.velocity.y);
     }
     
     private void HandleJump()
@@ -71,5 +167,12 @@ public class Player : MonoBehaviour
             jumpNumCount++;
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
         }
+    }
+    
+    // 在Scene视图中显示交互范围（调试用）
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, interactionRange);
     }
 }

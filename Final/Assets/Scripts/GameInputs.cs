@@ -26,8 +26,13 @@ public class GameInputs : MonoBehaviour
         return playerInputActions.Player.Jump.triggered;
     }
 
-    public bool IsInteract()
+    public bool IsInteractPressed()
     {
-        return playerInputActions.Player.Interact.triggered;
+        bool pressed = playerInputActions.Player.Interact.triggered;
+        if (pressed)
+        {
+            Debug.Log("交互输入检测到");
+        }
+        return pressed;
     }
 }
