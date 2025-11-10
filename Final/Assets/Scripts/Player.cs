@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private float jumpForce = 15f;
     [SerializeField] private int jumpNumMax = 2;
+    [SerializeField] private Vector3 playerInitialPosition;
 
     private Rigidbody2D rb;
     private int jumpNumCount;
@@ -23,6 +24,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         isAlive = true;
+        playerInitialPosition = transform.position;
     }
 
     private void Update()
@@ -43,7 +45,8 @@ public class Player : MonoBehaviour
 
     private void deadAction()
     {
-        throw new NotImplementedException();
+        transform.position = playerInitialPosition;
+        isAlive = true;
     }
 
     private void HandleMovement()
