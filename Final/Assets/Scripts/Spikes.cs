@@ -10,6 +10,7 @@ public class Spikes : MonoBehaviour
     {
         player.deadReason = "Spikes";
         player.isAlive = false;
+        player.playerHitPoint -= 10;
         Debug.Log("Is triggered");
     }
 }

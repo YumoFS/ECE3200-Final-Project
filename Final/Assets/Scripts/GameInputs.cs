@@ -35,4 +35,9 @@ public class GameInputs : MonoBehaviour
         }
         return pressed;
     }
+
+    public bool IsAttackPressed()
+    {
+        return playerInputActions.Player.Attack.triggered;
+    }
 }

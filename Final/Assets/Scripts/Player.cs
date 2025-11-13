@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ public class Player : MonoBehaviour
 {
     public bool isAlive;
     public string deadReason;
+    public int playerHitPoint = 1;
 
     [SerializeField] private GameInputs gameInputs;
     [SerializeField] private float moveSpeed = 10f;
@@ -13,9 +15,18 @@ public class Player : MonoBehaviour
     [SerializeField] private int jumpNumMax = 2;
     [SerializeField] private Vector3 playerInitialPosition;
     
-    // 交互相关
+    [Header("交互相关")]
     [SerializeField] private float interactionRange = 1.5f;
     [SerializeField] private LayerMask interactableLayer;
+
+    [Header("玩家数据相关")]
+    private static int playerHitPointMax = 1;
+    [SerializeField] private int playerAttackPower = 1;
+    [SerializeField] private float playerAttackDistance = 2f;
+    [SerializeField] private float attackColldown = .5f;
+
+    [SerializeField] private Transform attackPosition; 
+    [SerializeField] private LayerMask enemyLayers;
 
     private Rigidbody2D rb;
     private int jumpNumCount;
@@ -30,22 +41,52 @@ public class Player : MonoBehaviour
     {
         isAlive = true;
         playerInitialPosition = transform.position;
+        playerHitPoint = playerHitPointMax;
+
+        if (attackPosition == null) attackPosition = transform;
     }
 
     private void Update()
     {
-        if (!isAlive){
+        if (playerHitPoint <= 0){
             DeadAction();
         }
 
         HandleMovement();
         HandleJump();
+        HandleAttack();
         CheckForInteractables();
         HandleInteraction();
 
         if (Mathf.Abs(rb.velocity.y) < 0.01f)
         {
             jumpNumCount = 0;
+        }
+    }
+
+    private void HandleAttack()
+    {
+        if (gameInputs.IsAttackPressed())
+        {
+            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(
+                attackPosition.position, 
+                playerAttackDistance, 
+                enemyLayers
+            );
+        
+            // 对每个命中的敌人造成伤害
+            foreach (Collider2D enemy in hitEnemies)
+            {
+                Debug.Log("击中敌人: " + enemy.name);
+                
+                // 获取敌人的生命值组件并造成伤害
+                EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
+                if (enemyHealth != null)
+                {
+                    enemyHealth.TakeDamage(playerAttackPower);
+                }
+            }
+            
         }
     }
 
@@ -100,6 +141,7 @@ public class Player : MonoBehaviour
         transform.position = playerInitialPosition;
         rb.velocity = Vector3.zero;
         isAlive = true;
+        playerHitPoint = playerHitPointMax;
     }
 
     private void DeadBySpikes()
