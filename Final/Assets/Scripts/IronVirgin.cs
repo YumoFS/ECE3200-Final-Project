@@ -36,6 +36,7 @@ public class IronVirgin : Interactable
     {
         player.deadReason = "IronVirgin";
         player.isAlive = false;
+        player.playerHitPoint = 0;
     }
     
     private void OnTriggerEnter2D(Collider2D other)
