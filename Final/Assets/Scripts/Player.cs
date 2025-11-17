@@ -137,11 +137,19 @@ public class Player : MonoBehaviour
             case "IronVirgin":
                 DeadByIronVirgin();
                 break;
+            case "Pendulum":
+                DeadByPendulum();
+                break;
         }
         transform.position = playerInitialPosition;
         rb.velocity = Vector3.zero;
         isAlive = true;
         playerHitPoint = playerHitPointMax;
+    }
+
+    private void DeadByPendulum()
+    {
+        
     }
 
     private void DeadBySpikes()
