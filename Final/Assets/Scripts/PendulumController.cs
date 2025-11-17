@@ -6,7 +6,7 @@ public class PendulumController : MonoBehaviour
 {
     [Header("摆动参数")]
     [SerializeField] private float maxAngle = 60f;
-    [SerializeField] private float swingSpeed = 1f;
+    [SerializeField] private float swingSpeed = 0.5f;
     [SerializeField] private float startAngle = 0f;
     
     [Header("伤害设置")]

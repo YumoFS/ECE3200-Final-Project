@@ -8,6 +8,9 @@ public class Player : MonoBehaviour
     public bool isAlive;
     public string deadReason;
     public int playerHitPoint = 1;
+    public bool hasTorch;
+    public int deadCount;
+    public int winCount;
 
     [SerializeField] private GameInputs gameInputs;
     [SerializeField] private float moveSpeed = 10f;
@@ -42,6 +45,7 @@ public class Player : MonoBehaviour
         isAlive = true;
         playerInitialPosition = transform.position;
         playerHitPoint = playerHitPointMax;
+        hasTorch = false;
 
         if (attackPosition == null) attackPosition = transform;
     }
