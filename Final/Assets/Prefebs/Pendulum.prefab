@@ -339,7 +339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxAngle: 60
-  swingSpeed: 1
+  swingSpeed: 0.5
   startAngle: 0
   damage: 10
   knockbackForce: 15
