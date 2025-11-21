@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
 
     private Rigidbody2D rb;
     private int jumpNumCount;
+    private bool isInAir;
     private Interactable currentInteractable;
 
     private void Awake()
@@ -65,6 +66,12 @@ public class Player : MonoBehaviour
         if (Mathf.Abs(rb.velocity.y) < 0.01f)
         {
             jumpNumCount = 0;
+            isInAir = false;
+        }
+        else if (!isInAir)
+        {
+            jumpNumCount ++;
+            isInAir = true;
         }
     }
 
