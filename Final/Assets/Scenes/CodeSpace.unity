@@ -692,6 +692,51 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 843278276}
   m_CullTransparentMesh: 1
+--- !u!1 &1526681053
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1526681055}
+  - component: {fileID: 1526681054}
+  m_Layer: 0
+  m_Name: TopDetector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1526681054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526681053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0817bb1830471b84ca25f00287c61eaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1937538870}
+--- !u!4 &1526681055
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1526681053}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1571303867
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1067,7 +1112,7 @@ Transform:
   m_GameObject: {fileID: 1937538866}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -3.5722752}
+  m_LocalPosition: {x: -5.57, y: 1.49, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1100,6 +1145,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputManager: {fileID: 1937538869}
   playerTexture: {fileID: 1716758567}
+  overlapManager: {fileID: 1937538871}
 --- !u!114 &1937538871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1112,10 +1158,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb79c6537e44a5c4c83cec0913edd8af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collider: {fileID: 1716758568}
+  selfCollider: {fileID: 1716758568}
   layerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 2048
 --- !u!1 &2052674553
 GameObject:
   m_ObjectHideFlags: 0
@@ -1230,3 +1276,4 @@ SceneRoots:
   - {fileID: 273009417}
   - {fileID: 41216904}
   - {fileID: 1937538868}
+  - {fileID: 1526681055}
