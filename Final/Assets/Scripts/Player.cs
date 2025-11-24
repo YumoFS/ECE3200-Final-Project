@@ -18,6 +18,9 @@ public class Player : MonoBehaviour
     [SerializeField] private int jumpNumMax = 2;
     [SerializeField] private Vector3 playerInitialPosition;
     
+    [Header("动画相关")]
+    [SerializeField] private Animator animator;
+    
     [Header("交互相关")]
     [SerializeField] private float interactionRange = 1.5f;
     [SerializeField] private LayerMask interactableLayer;
@@ -26,7 +29,7 @@ public class Player : MonoBehaviour
     private static int playerHitPointMax = 1;
     [SerializeField] private int playerAttackPower = 1;
     [SerializeField] private float playerAttackDistance = 2f;
-    [SerializeField] private float attackColldown = .5f;
+    [SerializeField] private float attackCooldown = 0.5f;
 
     [SerializeField] private Transform attackPosition; 
     [SerializeField] private LayerMask enemyLayers;
@@ -35,10 +38,18 @@ public class Player : MonoBehaviour
     private int jumpNumCount;
     private bool isInAir;
     private Interactable currentInteractable;
+    
+    // 动画状态变量
+    private bool isAttacking = false;
+    private float attackCooldownTimer = 0f;
+    private float lastHorizontalInput = 1f; // 默认朝右
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        // 如果Animator没有在Inspector中分配，尝试获取
+        if (animator == null)
+            animator = GetComponent<Animator>();
     }
 
     private void Start()
@@ -64,11 +75,18 @@ public class Player : MonoBehaviour
             DeadAction();
         }
 
+        // 更新攻击冷却
+        if (attackCooldownTimer > 0)
+        {
+            attackCooldownTimer -= Time.deltaTime;
+        }
+
         HandleMovement();
         HandleJump();
         HandleAttack();
         CheckForInteractables();
         HandleInteraction();
+        UpdateAnimations();
 
         if (Mathf.Abs(rb.velocity.y) < 0.01f)
         {
@@ -82,30 +100,84 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void UpdateAnimations()
+    {
+        if (animator == null) return;
+
+        // 设置移动速度参数
+        float horizontalSpeed = Mathf.Abs(rb.velocity.x);
+        animator.SetFloat("Speed", horizontalSpeed);
+        
+        // 设置跳跃/下落状态
+        animator.SetBool("IsGrounded", !isInAir);
+        animator.SetFloat("VerticalVelocity", rb.velocity.y);
+        
+        // 设置攻击状态
+        animator.SetBool("IsAttacking", isAttacking);
+        
+        // 更新角色朝向
+        Vector2 inputVector = gameInputs.GetmovementVectorNormalize();
+        if (inputVector.x != 0 && !isAttacking)
+        {
+            lastHorizontalInput = Mathf.Sign(inputVector.x);
+            transform.localScale = new Vector3(lastHorizontalInput, 1, 1);
+        }
+    }
+
     private void HandleAttack()
     {
-        if (gameInputs.IsAttackPressed())
+        if (gameInputs.IsAttackPressed() && attackCooldownTimer <= 0 && !isAttacking)
         {
-            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(
-                attackPosition.position, 
-                playerAttackDistance, 
-                enemyLayers
-            );
-        
-            // 对每个命中的敌人造成伤害
-            foreach (Collider2D enemy in hitEnemies)
-            {
-                Debug.Log("击中敌人: " + enemy.name);
-                
-                // 获取敌人的生命值组件并造成伤害
-                EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
-                if (enemyHealth != null)
-                {
-                    enemyHealth.TakeDamage(playerAttackPower);
-                }
-            }
-            
+            StartCoroutine(PerformAttack());
         }
+    }
+
+    private System.Collections.IEnumerator PerformAttack()
+    {
+        isAttacking = true;
+        attackCooldownTimer = attackCooldown;
+        
+        // 触发攻击动画
+        animator.SetTrigger("Attack");
+        
+        // 等待动画的命中帧（你可以调整这个时间）
+        yield return new WaitForSeconds(0.2f);
+        
+        // 执行攻击检测
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(
+            attackPosition.position, 
+            playerAttackDistance, 
+            enemyLayers
+        );
+    
+        // 对每个命中的敌人造成伤害
+        foreach (Collider2D enemy in hitEnemies)
+        {
+            Debug.Log("击中敌人: " + enemy.name);
+            
+            // 获取敌人的生命值组件并造成伤害
+            EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
+            if (enemyHealth != null)
+            {
+                enemyHealth.TakeDamage(playerAttackPower);
+            }
+        }
+        
+        // 等待攻击动画完成（你可以通过动画事件来更精确地控制）
+        yield return new WaitForSeconds(0.3f);
+        isAttacking = false;
+    }
+
+    // 动画事件方法 - 可以在动画时间线中调用
+    public void OnAttackHitFrame()
+    {
+        // 这个方法可以在攻击动画的特定帧被调用
+        Debug.Log("攻击命中帧");
+    }
+    
+    public void OnAttackEnd()
+    {
+        isAttacking = false;
     }
 
     private void CheckForInteractables()
@@ -147,6 +219,12 @@ public class Player : MonoBehaviour
 
     private void DeadAction()
     {
+        // 触发死亡动画
+        if (animator != null)
+        {
+            animator.SetTrigger("Die");
+        }
+        
         switch (deadReason)
         {
             case "Spikes":
@@ -162,74 +240,36 @@ public class Player : MonoBehaviour
                 DeadByFalling();
                 break;
         }
+        
+        // 等待一小段时间再重置（让死亡动画播放）
+        StartCoroutine(RespawnAfterDeath());
+    }
+
+    private System.Collections.IEnumerator RespawnAfterDeath()
+    {
+        yield return new WaitForSeconds(1f);
+        
         transform.position = playerInitialPosition;
         rb.velocity = Vector3.zero;
         isAlive = true;
         playerHitPoint = playerHitPointMax;
+        
+        // 重置动画状态
+        if (animator != null)
+        {
+            animator.SetTrigger("Respawn");
+        }
     }
 
-    private void DeadByFalling()
-    {
-        
-    }
-
-    private void DeadByPendulum()
-    {
-        
-    }
-
-    private void DeadBySpikes()
-    {
-        
-    }
-
-    private void DeadByIronVirgin()
-    {
-
-    }
-
-    // private void HandleMovement()
-    // {
-    //     Vector2 inputVector = gameInputs.GetmovementVectorNormalize();
-    //     Vector3 moveDir = new Vector3(inputVector.x, 0f, 0f);
-
-    //     float moveDistance = moveSpeed * Time.deltaTime;
-        
-    //     // 修复碰撞检测逻辑
-    //     Vector2 playerSize = GetComponent<Collider2D>().bounds.size * 0.9f; // 使用实际碰撞器大小，稍微缩小一点避免卡住
-        
-    //     // 只在水平方向检测碰撞
-    //     if (moveDir.x != 0)
-    //     {
-    //         // 使用Raycast而不是CapsuleCast，更简单可靠
-    //         RaycastHit2D hit = Physics2D.Raycast(
-    //             transform.position, 
-    //             moveDir, 
-    //             playerSize.x / 2 + moveDistance, 
-    //             GetGroundLayerMask()
-    //         );
-            
-    //         // 如果没有碰撞，则可以移动
-    //         if (hit.collider == null)
-    //         {
-    //             transform.position += moveDir * moveDistance;
-    //         }
-    //         else
-    //         {
-    //             Debug.Log($"碰撞阻碍移动，碰撞对象: {hit.collider.gameObject.name}");
-    //         }
-    //     }
-    // }
-
-    // // 获取地面图层掩码（排除玩家自身）
-    // private LayerMask GetGroundLayerMask()
-    // {
-    //     // 返回所有图层除了玩家图层
-    //     return ~(1 << gameObject.layer);
-    // }
+    private void DeadByFalling() { }
+    private void DeadByPendulum() { }
+    private void DeadBySpikes() { }
+    private void DeadByIronVirgin() { }
     
     private void HandleMovement()
     {
+        if (isAttacking) return; // 攻击时不能移动
+        
         Vector2 inputVector = gameInputs.GetmovementVectorNormalize();
         
         // 直接设置水平速度，让物理引擎处理碰撞
@@ -238,6 +278,8 @@ public class Player : MonoBehaviour
     
     private void HandleJump()
     {
+        if (isAttacking) return; // 攻击时不能跳跃
+        
         if (gameInputs.IsJumpPressed() && jumpNumCount < jumpNumMax)
         {
             jumpNumCount++;
@@ -245,10 +287,18 @@ public class Player : MonoBehaviour
         }
     }
     
-    // 在Scene视图中显示交互范围（调试用）
+    // 在Scene视图中显示交互范围和攻击范围（调试用）
     private void OnDrawGizmosSelected()
     {
+        // 交互范围
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, interactionRange);
+        
+        // 攻击范围
+        if (attackPosition != null)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(attackPosition.position, playerAttackDistance);
+        }
     }
 }
