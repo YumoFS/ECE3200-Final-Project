@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
+using Unity.VisualScripting;
 
 public class InteractiveText : MonoBehaviour
 {
@@ -10,8 +12,10 @@ public class InteractiveText : MonoBehaviour
     private const float HEIGHT_PADDING = 3f;
     [SerializeField] private TextMeshProUGUI textDisplayer;
     [SerializeField] private BoxCollider2D textCollider;
+    [SerializeField] private Color chosenColor;
     private float canvasScale;
     private float localClock;
+    private Color initColor;
 
     /********************** System Calls **********************/
     private void Awake()
@@ -19,6 +23,7 @@ public class InteractiveText : MonoBehaviour
         localClock = 0f;
         canvasScale = GetComponentInChildren<Canvas>().GetComponent<RectTransform>().localScale.x;
         AdaptColliderToText();
+        initColor = textDisplayer.color;
     }
 
     private void Update()
@@ -33,6 +38,18 @@ public class InteractiveText : MonoBehaviour
         textDisplayer.text = newContent;
         textDisplayer.fontSize = newFontSize;
         AdaptColliderToText();
+    }
+    public void ModifyTextColor(Color newColor)
+    {
+        textDisplayer.color = newColor;
+    }
+    public void ModifyColorToInit()
+    {
+        textDisplayer.color = initColor;
+    }
+    public void ModifyColorToChosen()
+    {
+        textDisplayer.color = chosenColor;
     }
     public void DestroySelf()
     {

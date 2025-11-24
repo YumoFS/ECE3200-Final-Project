@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4243299362349632550}
   - component: {fileID: 5189753106504634128}
   - component: {fileID: 1342646693024299139}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: InteractiveText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,6 +48,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textDisplayer: {fileID: 4445064613011704125}
   textCollider: {fileID: 1342646693024299139}
+  overlapManager: {fileID: 0}
+  chosenColor: {r: 0.61006284, g: 0.61006284, b: 0.61006284, a: 1}
 --- !u!61 &1342646693024299139
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -77,7 +79,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -104,7 +106,7 @@ GameObject:
   - component: {fileID: 2785459500090564402}
   - component: {fileID: 445501202139679807}
   - component: {fileID: 4445064613011704125}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: TextMeshPro
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,8 +169,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4291085508
+  m_fontColor: {r: 0.7686275, g: 0.7686275, b: 0.7686275, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -239,7 +241,7 @@ GameObject:
   - component: {fileID: 3479208904913638904}
   - component: {fileID: 3951759100691519915}
   - component: {fileID: 1085363995669071809}
-  m_Layer: 5
+  m_Layer: 11
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}

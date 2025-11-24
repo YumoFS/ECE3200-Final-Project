@@ -15,8 +15,8 @@ TagManager:
   - Interactable
   - Enemy
   - 
-  - 
-  - 
+  - CodeSpacePlayer
+  - CodeSpaceInteractiveText
   - 
   - 
   - 
