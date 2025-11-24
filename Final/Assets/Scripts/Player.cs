@@ -53,6 +53,13 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        if (transform.position.y < -5f)
+        {
+            playerHitPoint = 0;
+            isAlive = false;
+            deadReason = "Falling";
+        }
+
         if (playerHitPoint <= 0){
             DeadAction();
         }
@@ -151,11 +158,19 @@ public class Player : MonoBehaviour
             case "Pendulum":
                 DeadByPendulum();
                 break;
+            case "Falling":
+                DeadByFalling();
+                break;
         }
         transform.position = playerInitialPosition;
         rb.velocity = Vector3.zero;
         isAlive = true;
         playerHitPoint = playerHitPointMax;
+    }
+
+    private void DeadByFalling()
+    {
+        
     }
 
     private void DeadByPendulum()

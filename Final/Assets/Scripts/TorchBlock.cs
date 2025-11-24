@@ -37,6 +37,7 @@ public class TorchBlock : Interactable
     public override void Interact()
     {
         player.hasTorch = true;
+        Destroy(gameObject);
         Debug.Log("与方块交互！");
     }
     
