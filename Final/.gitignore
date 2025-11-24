@@ -102,7 +102,3 @@ ignore.conf
 # TextMesh Pro
 /[Aa]ssets/[Tt]extMesh Pro
 /[Aa]ssets/[Tt]extMesh Pro.meta
-
-# Ignore all .meta files in Audio and Sprites directories
-/[Aa]ssets/[Aa]udio/**/*.meta
-/[Aa]ssets/[Ss]prites/**/*.meta
