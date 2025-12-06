@@ -22,8 +22,7 @@ public class OverlapManager : MonoBehaviour
 
     private void Update()
     {
-        count = selfCollider.OverlapCollider(contactFilter, contactColliders);  
-        Debug.Log(count);
+        count = selfCollider.OverlapCollider(contactFilter, contactColliders);
     }
 
     public Collider2D[] GetAllContactColliders()
@@ -32,12 +31,29 @@ public class OverlapManager : MonoBehaviour
     }
     public Collider2D GetTopContactCollider()
     {
-        return IsContacting() ? contactColliders[0] : null;
+        if(IsContacting())
+        {
+            for (int i = 0; i < count; i ++)
+            {
+                if (contactColliders[i].GetComponent<InteractiveText>().isInteractive)
+                    return contactColliders[i];
+            }
+        }
+        return null;
     }
-
+    public int GetContactColliderNum()
+    {
+        int res = 0;
+        for (int i = 0; i < count; i ++)
+        {
+            if (contactColliders[i].GetComponent<InteractiveText>().isInteractive)
+                res ++;
+        }
+        return res;
+    }
     public bool IsContacting()
     {
-        return count > 0;
+        return GetContactColliderNum() > 0;
     }
 
 }

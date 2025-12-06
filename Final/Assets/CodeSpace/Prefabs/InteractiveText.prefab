@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 2248132175926816346}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -8.37, y: 4.25, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -48,8 +48,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textDisplayer: {fileID: 4445064613011704125}
   textCollider: {fileID: 1342646693024299139}
-  overlapManager: {fileID: 0}
   chosenColor: {r: 0.61006284, g: 0.61006284, b: 0.61006284, a: 1}
+  password: 
+  isInteractive: 1
 --- !u!61 &1342646693024299139
 BoxCollider2D:
   m_ObjectHideFlags: 0

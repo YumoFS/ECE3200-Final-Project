@@ -11,8 +11,8 @@ public class CodeSpacePlayer : MonoBehaviour
     [SerializeField] private InputManager inputManager;
     [SerializeField] private Canvas playerTexture;
     [SerializeField] private GameObject carryPoint;
+    [SerializeField] private float moveSpeed;
     public OverlapManager overlapManager;
-    private const float moveSpeed = 1f;
     private bool isCarrying;
     private void Start()
     {
@@ -23,11 +23,15 @@ public class CodeSpacePlayer : MonoBehaviour
     {
         if (overlapManager.IsContacting())
         {
-            if (!isCarrying)
-                SetTextAsChild(overlapManager.GetTopContactCollider().GetComponent<InteractiveText>());
-            else
-                ReleaseTextFromChild();
-            isCarrying = !isCarrying;
+            Debug.Log(overlapManager.GetContactColliderNum());
+            InteractiveText contactingText = overlapManager.GetTopContactCollider().GetComponent<InteractiveText>();
+            if (contactingText.isInteractive)
+            {
+                if (!isCarrying)
+                    SetTextAsChild(contactingText);
+                else
+                    ReleaseTextFromChild();
+            }
         }
     }
     private void Update()
@@ -57,16 +61,20 @@ public class CodeSpacePlayer : MonoBehaviour
     }
 
     private void SetTextAsChild(InteractiveText interactiveText) {
+        interactiveText.UpdateWrongPrompt();
+        if (!interactiveText.isInteractive) return;
         interactiveText.transform.SetParent(carryPoint.transform);
         BoxCollider2D textCollider = interactiveText.GetCollider();
         Vector3 colliderCenter = new Vector3(-textCollider.offset.x, -textCollider.offset.y, 0);
         interactiveText.transform.SetLocalPositionAndRotation(colliderCenter, new Quaternion());
+        isCarrying = true;
     }
 
     private void ReleaseTextFromChild() {
         if (!isCarrying) return;
         InteractiveText carryingText = carryPoint.GetComponentInChildren<InteractiveText>();
         carryingText.transform.SetParent(null, true);
+        isCarrying = false;
     }
 
 
@@ -77,4 +85,5 @@ public class CodeSpacePlayer : MonoBehaviour
     public bool IsCarrying() {
         return isCarrying;
     }
+    
 }

@@ -16,12 +16,15 @@ public class TopDetector : MonoBehaviour
         if (topCollider != null && !player.IsCarrying())
         {
             InteractiveText chosenText = topCollider.GetComponent<InteractiveText>();
-            chosenText.ModifyColorToChosen();
-            if (lastChosenText != chosenText && lastChosenText != null)
+            if (chosenText.isInteractive)
             {
-                lastChosenText.ModifyColorToInit();
+                chosenText.SetColorToChosen();
+                if (lastChosenText != chosenText && lastChosenText != null)
+                {
+                    lastChosenText.SetColorToInit();
+                }
+                lastChosenText = chosenText;
             }
-            lastChosenText = chosenText;
         }
     }
     public InteractiveText PlayerChosenText()
