@@ -13,26 +13,33 @@ public class InteractiveText : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textDisplayer;
     [SerializeField] private BoxCollider2D textCollider;
     [SerializeField] private Color chosenColor;
+    private CodeSpacePlayer player;
     private float canvasScale;
-    private float localClock;
     private Color initColor;
 
     /********************** System Calls **********************/
     private void Awake()
     {
-        localClock = 0f;
         canvasScale = GetComponentInChildren<Canvas>().GetComponent<RectTransform>().localScale.x;
         AdaptColliderToText();
         initColor = textDisplayer.color;
+        GameObject playerGameObject = GameObject.FindGameObjectWithTag("CodeSpacePlayer");
+        Debug.Log(playerGameObject);
+        player = playerGameObject.GetComponent<CodeSpacePlayer>();
     }
 
     private void Update()
     {
-        localClock += Time.deltaTime;
-        if (localClock >= 1f) localClock = 0f;
+        if (!player.overlapManager.IsContacting() || player.IsCarrying()) {
+            ModifyColorToInit();
+        }
     }
 
     /********************** Public Methods **********************/
+    public BoxCollider2D GetCollider()
+    {
+        return textCollider;
+    }
     public void ModifyTextContent(string newContent, int newFontSize)
     {
         textDisplayer.text = newContent;

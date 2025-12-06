@@ -178,6 +178,10 @@ PrefabInstance:
       propertyPath: m_text
       value: "This is the modified multiline \nsentence with a 2D Collision."
       objectReference: {fileID: 0}
+    - target: {fileID: 5189753106504634128, guid: 38d8d59592471224480f00c430ebd8dd, type: 3}
+      propertyPath: pl
+      value: 
+      objectReference: {fileID: 1937538870}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -243,6 +247,10 @@ PrefabInstance:
       propertyPath: m_fontStyle
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5189753106504634128, guid: 38d8d59592471224480f00c430ebd8dd, type: 3}
+      propertyPath: pl
+      value: 
+      objectReference: {fileID: 1937538870}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -692,6 +700,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 843278276}
   m_CullTransparentMesh: 1
+--- !u!1 &1414460949
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1414460950}
+  m_Layer: 10
+  m_Name: CarryingText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1414460950
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414460949}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1937538868}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1526681053
 GameObject:
   m_ObjectHideFlags: 0
@@ -789,6 +828,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5189753106504634128, guid: 38d8d59592471224480f00c430ebd8dd, type: 3}
+      propertyPath: pl
+      value: 
+      objectReference: {fileID: 1937538870}
+    - target: {fileID: 5189753106504634128, guid: 38d8d59592471224480f00c430ebd8dd, type: 3}
+      propertyPath: overlapManager
+      value: 
+      objectReference: {fileID: 1937538871}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1098,7 +1145,7 @@ GameObject:
   - component: {fileID: 1937538871}
   m_Layer: 10
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: CodeSpacePlayer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1117,6 +1164,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1716758564}
+  - {fileID: 1414460950}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1937538869
@@ -1145,6 +1193,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputManager: {fileID: 1937538869}
   playerTexture: {fileID: 1716758567}
+  carryPoint: {fileID: 1414460949}
   overlapManager: {fileID: 1937538871}
 --- !u!114 &1937538871
 MonoBehaviour:

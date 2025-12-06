@@ -4,30 +4,37 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.Video;
 
 public class CodeSpacePlayer : MonoBehaviour
 {
     [SerializeField] private InputManager inputManager;
     [SerializeField] private Canvas playerTexture;
-    [SerializeField] private OverlapManager overlapManager;
+    [SerializeField] private GameObject carryPoint;
+    public OverlapManager overlapManager;
     private const float moveSpeed = 1f;
+    private bool isCarrying;
     private void Start()
     {
+        isCarrying = false;
         inputManager.OnInteractAction += InputManager_OnInteractAction;
     }
     private void InputManager_OnInteractAction(object sender, EventArgs e)
     {
-        Debug.Log("F pressed");
+        if (overlapManager.IsContacting())
+        {
+            if (!isCarrying)
+                SetTextAsChild(overlapManager.GetTopContactCollider().GetComponent<InteractiveText>());
+            else
+                ReleaseTextFromChild();
+            isCarrying = !isCarrying;
+        }
     }
     private void Update()
     {
         PlayerMovementHandler();
     }
 
-    public Collider2D PlayerTopCollider()
-    {
-        return overlapManager.GetTopContactCollider();
-    }
     private void PlayerMovementHandler()
     {
         Vector2 deltaPosition = moveSpeed * Time.deltaTime * inputManager.GetMovementDirection();
@@ -47,5 +54,27 @@ public class CodeSpacePlayer : MonoBehaviour
     private bool Sgn(float x)
     {
         return x > 0;
+    }
+
+    private void SetTextAsChild(InteractiveText interactiveText) {
+        interactiveText.transform.SetParent(carryPoint.transform);
+        BoxCollider2D textCollider = interactiveText.GetCollider();
+        Vector3 colliderCenter = new Vector3(-textCollider.offset.x, -textCollider.offset.y, 0);
+        interactiveText.transform.SetLocalPositionAndRotation(colliderCenter, new Quaternion());
+    }
+
+    private void ReleaseTextFromChild() {
+        if (!isCarrying) return;
+        InteractiveText carryingText = carryPoint.GetComponentInChildren<InteractiveText>();
+        carryingText.transform.SetParent(null, true);
+    }
+
+
+    public Collider2D PlayerTopCollider()
+    {
+        return overlapManager.GetTopContactCollider();
+    }
+    public bool IsCarrying() {
+        return isCarrying;
     }
 }

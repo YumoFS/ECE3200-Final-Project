@@ -13,17 +13,13 @@ public class TopDetector : MonoBehaviour
     void Update()
     {
         Collider2D topCollider = player.PlayerTopCollider();
-        if (topCollider != null)
+        if (topCollider != null && !player.IsCarrying())
         {
             InteractiveText chosenText = topCollider.GetComponent<InteractiveText>();
-            Debug.Log(chosenText);
-            if (chosenText != null)
+            chosenText.ModifyColorToChosen();
+            if (lastChosenText != chosenText && lastChosenText != null)
             {
-                if (lastChosenText != chosenText && lastChosenText != null)
-                {
-                    lastChosenText.ModifyColorToInit();
-                }
-                chosenText.ModifyColorToChosen();
+                lastChosenText.ModifyColorToInit();
             }
             lastChosenText = chosenText;
         }
