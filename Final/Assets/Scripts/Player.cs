@@ -80,7 +80,7 @@ public class Player : MonoBehaviour
         {
             attackCooldownTimer -= Time.deltaTime;
         }
-
+        
         HandleMovement();
         HandleJump();
         HandleAttack();
@@ -117,10 +117,10 @@ public class Player : MonoBehaviour
         
         // 更新角色朝向
         Vector2 inputVector = gameInputs.GetmovementVectorNormalize();
-        if (inputVector.x != 0 && !isAttacking)
+        if (inputVector.x != 0 && playerHitPoint > 0)
         {
             lastHorizontalInput = Mathf.Sign(inputVector.x);
-            transform.localScale = new Vector3(lastHorizontalInput, 1, 1);
+            transform.localScale = new Vector3(lastHorizontalInput * 0.2f, 0.2f, 0.2f);
         }
     }
 
