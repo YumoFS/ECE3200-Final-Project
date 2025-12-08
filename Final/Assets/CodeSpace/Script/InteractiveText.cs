@@ -93,15 +93,15 @@ public class InteractiveText : MonoBehaviour
         wrongPrompted = false;
     }
 
-    public void OnWrongTextMatched(Color matchFailPrompt)
+    public void OnWrongTextMatched(Color textFailPrompt, Color consoleFailPrompt)
     {
         Debug.Log(this + "on wrong text matched");
         if (!isPromptingWrong && !wrongPrompted)
         {
             count = 0;
             isPromptingWrong = true;
-            failPromptColor = matchFailPrompt;
-            debugConsole.InsertLog($"<color=#{UnityEngine.ColorUtility.ToHtmlStringRGBA(failPromptColor)}>{password} should not be placed here...</color>");
+            failPromptColor = textFailPrompt;
+            debugConsole.InsertLog($"<color=#{UnityEngine.ColorUtility.ToHtmlStringRGBA(consoleFailPrompt)}>{password} should not be placed here...</color>");
         }
     }   
 

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CodeSpacePlayer
   - DebugConsole
+  - DestroyedData
   layers:
   - Default
   - TransparentFX

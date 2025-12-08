@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DestroyedData : MonoBehaviour
@@ -9,11 +10,13 @@ public class DestroyedData : MonoBehaviour
     [SerializeField] private int randomCodeLen;
     [SerializeField] private OverlapManager overlapManager;
     [SerializeField] private Color filledColor;
+    [SerializeField] private Color failedConsolePromptColor;
     [SerializeField] private Color failedPromptColor;
     private DebugConsole debugConsole;
     private float counter;
     private CodeSpacePlayer player;
     private bool isFilled = false;
+    private InteractiveText filledText;
 
     /******* Private Functions ******/
     private string GenerateRandomCode()
@@ -57,18 +60,33 @@ public class DestroyedData : MonoBehaviour
                     contactText.SetTextColor(filledColor);
                     contactText.SetNewInitColor(filledColor);
                     isFilled = true;
-                    debugConsole.InsertLog($"<color=#{ColorUtility.ToHtmlStringRGBA(filledColor)}>{text.password} is successfully fixed.</color>");
+                    filledText = contactText;
+                    debugConsole.InsertLog($"<color=#{UnityEngine.ColorUtility.ToHtmlStringRGBA(filledColor)}>{text.password} is successfully fixed.</color>");
                 }
                 else
                 {
-                    contactText.OnWrongTextMatched(failedPromptColor);
-                    
+                    contactText.OnWrongTextMatched(failedPromptColor, failedConsolePromptColor);
                 }
             }
         }
 
     }
 
+    public void ReturnToDestroyed()
+    {
+        filledText.DestroySelf();
+        text.gameObject.SetActive(true);
+        isFilled = false;
+        debugConsole.InsertLog($"<color=#{UnityEngine.ColorUtility.ToHtmlStringRGBA(failedPromptColor)}>{text.password} Storage missed at {text.password}. Trying to repair...</color>");
+        debugConsole.InsertLog($"<color=#{UnityEngine.ColorUtility.ToHtmlStringRGBA(failedPromptColor)}>{text.password} Failed to repair.</color>");
+    }
+
+    /******* Public Methods ******/
+
+    public bool IsFilled()
+    {
+        return isFilled;
+    }
 
     /******* System Calls *******/
     private void Awake()

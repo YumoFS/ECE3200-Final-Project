@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6118965622604469559}
   m_Layer: 0
   m_Name: DestroyedData
-  m_TagString: Untagged
+  m_TagString: DestroyedData
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -50,6 +50,7 @@ MonoBehaviour:
   randomCodeLen: 5
   overlapManager: {fileID: 6118965622604469559}
   filledColor: {r: 0.30980393, g: 0.6901961, b: 0.21568628, a: 255}
+  failedConsolePromptColor: {r: 0.9607843, g: 0.84313726, b: 0.07058824, a: 1}
   failedPromptColor: {r: 0.8773585, g: 0.19450872, b: 0.19450872, a: 1}
 --- !u!114 &6118965622604469559
 MonoBehaviour:
