@@ -6,6 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/CastleInside.unity
+    guid: 1137f7fad35c81249ae1acc415225119
+  - enabled: 1
     path: Assets/Scenes/CastleOutside.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/Throne.unity
+    guid: be8fce97f7abac44c814264679aa9e5e
+  - enabled: 1
+    path: Assets/Scenes/CodeSpace.unity
+    guid: 8f752867213265f40aa9565e9193d2b7
   m_configObjects: {}
