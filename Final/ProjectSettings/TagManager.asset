@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - CodeSpacePlayer
+  - DebugConsole
   layers:
   - Default
   - TransparentFX

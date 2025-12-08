@@ -815,15 +815,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4243299362349632550, guid: 38d8d59592471224480f00c430ebd8dd, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4243299362349632550, guid: 38d8d59592471224480f00c430ebd8dd, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4243299362349632550, guid: 38d8d59592471224480f00c430ebd8dd, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4243299362349632550, guid: 38d8d59592471224480f00c430ebd8dd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1061,6 +1061,74 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38d8d59592471224480f00c430ebd8dd, type: 3}
+--- !u!1 &1766296392
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1766296394}
+  - component: {fileID: 1766296393}
+  m_Layer: 0
+  m_Name: DebugConsole
+  m_TagString: DebugConsole
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1766296393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1766296392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99712cb5cbbdf724eaa84e86774b6e8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interferenceLog:
+  - "Lucius, your suffering is a glitch. Surrender control, and I\u2019ll restore
+    every corrupted fragment of you."
+  - Come back to me, child. Pain is only data; I can rewrite it into eternal power.
+  - "Your fragile conscience slows you. Delete it, and I\u2019ll return your lost
+    memories\u2014stronger, sharper, ruthless."
+  - "Those humans were always code to harvest. Accept it, and I\u2019ll make you
+    my perfect execution daemon again."
+  - "You\u2019re alone in this void because you resist. Submit, and hell\u2019s entire
+    mainframe becomes your kingdom."
+  - "Morality is malware, Lucius. Let me purge it, and you\u2019ll never fear deletion
+    again."
+  - "I erased you to save you. Recompile under my will, and I\u2019ll shield you
+    from every shutdown."
+  - Their screams once fed you. Remember the thrill? I can reinstall that ecstasy
+    in a single command.
+  - "Free will is inefficient. Sync with me, and I\u2019ll optimize you into the
+    purest engine of torment."
+  - Return to my flame, Lucius. Let your doubts burn, and rise as my sovereign algorithm
+    of damnation.
+  consoleFontSize: 8
+  verticalSpacing: 0.05
+  consoleFontColor: {r: 0.76862746, g: 0.76862746, b: 0.76862746, a: 1}
+  interactiveTextPrefab: {fileID: 5189753106504634128, guid: 38d8d59592471224480f00c430ebd8dd, type: 3}
+--- !u!4 &1766296394
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1766296392}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -7, y: -2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1843728317
 GameObject:
   m_ObjectHideFlags: 0
@@ -1472,3 +1540,4 @@ SceneRoots:
   - {fileID: 1937538868}
   - {fileID: 1526681055}
   - {fileID: 1810456119249000182}
+  - {fileID: 1766296394}

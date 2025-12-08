@@ -10,10 +10,10 @@ public class DestroyedData : MonoBehaviour
     [SerializeField] private OverlapManager overlapManager;
     [SerializeField] private Color filledColor;
     [SerializeField] private Color failedPromptColor;
+    private DebugConsole debugConsole;
     private float counter;
     private CodeSpacePlayer player;
     private bool isFilled = false;
-
 
     /******* Private Functions ******/
     private string GenerateRandomCode()
@@ -57,10 +57,12 @@ public class DestroyedData : MonoBehaviour
                     contactText.SetTextColor(filledColor);
                     contactText.SetNewInitColor(filledColor);
                     isFilled = true;
+                    debugConsole.InsertLog($"<color=#{ColorUtility.ToHtmlStringRGBA(filledColor)}>{text.password} is successfully fixed.</color>");
                 }
                 else
                 {
                     contactText.OnWrongTextMatched(failedPromptColor);
+                    
                 }
             }
         }
@@ -75,7 +77,8 @@ public class DestroyedData : MonoBehaviour
         text.isInteractive = false;
         GameObject playerGameObject = GameObject.FindGameObjectWithTag("CodeSpacePlayer");
         player = playerGameObject.GetComponent<CodeSpacePlayer>();
-        Debug.Log(player);
+        GameObject debugConsoleGameObject = GameObject.FindGameObjectWithTag("DebugConsole");
+        debugConsole = debugConsoleGameObject.GetComponent<DebugConsole>();
     }
 
     private void Update()

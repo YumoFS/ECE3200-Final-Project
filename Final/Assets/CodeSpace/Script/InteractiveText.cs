@@ -11,14 +11,15 @@ public class InteractiveText : MonoBehaviour
     private const float WIDTH_PADDING = 5f;
     private const float HEIGHT_PADDING = 3f;
     private const float WRONG_MATCH_BLINKING = .25f;
-    public const int DEFAULT_FONTSIZE = 12;
+    public const int DEFAULT_FONTSIZE = 8;
     [SerializeField] private TextMeshProUGUI textDisplayer;
     [SerializeField] private BoxCollider2D textCollider;
     [SerializeField] private Color chosenColor;
     private Color failPromptColor;
     private CodeSpacePlayer player;
+    private DebugConsole debugConsole;
     private float canvasScale;
-    private Color initColor;
+    private Color initColor = new(196, 196, 196, 255);
     private bool isPromptingWrong = false;
     private bool wrongPrompted = false;
     private float count;
@@ -34,6 +35,8 @@ public class InteractiveText : MonoBehaviour
         initColor = textDisplayer.color;
         GameObject playerGameObject = GameObject.FindGameObjectWithTag("CodeSpacePlayer");
         player = playerGameObject.GetComponent<CodeSpacePlayer>();
+        GameObject debugConsoleGameObject = GameObject.FindGameObjectWithTag("DebugConsole");
+        debugConsole = debugConsoleGameObject.GetComponent<DebugConsole>();
     }
 
     private void Update()
@@ -98,8 +101,9 @@ public class InteractiveText : MonoBehaviour
             count = 0;
             isPromptingWrong = true;
             failPromptColor = matchFailPrompt;
+            debugConsole.InsertLog($"<color=#{UnityEngine.ColorUtility.ToHtmlStringRGBA(failPromptColor)}>{password} should not be placed here...</color>");
         }
-    }
+    }   
 
     /********************** Functions **********************/
     private void AdaptColliderToText()
