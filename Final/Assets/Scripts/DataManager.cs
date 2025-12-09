@@ -114,4 +114,18 @@ public class DataManager : MonoBehaviour
             currentPlayerData = JsonUtility.FromJson<PlayerData>(json);
         }
     }
+
+    public void SaveDeathData(int newDeathCount, string deathReason)
+    {
+        if (currentPlayerData == null) return;
+        
+        currentPlayerData.deadCount = newDeathCount;
+        
+        // 可以保存更多的死亡相关信息
+        PlayerPrefs.SetString("LastDeathReason", deathReason);
+        PlayerPrefs.SetInt("TotalDeaths", newDeathCount);
+        PlayerPrefs.Save();
+        
+        SaveToFile();
+    }
 }

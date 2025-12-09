@@ -39,6 +39,9 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform currentCheckpoint;
     private string currentSceneName;
 
+    [Header("死亡设置")]
+    [SerializeField] private bool useDeathTransitionScene = true;
+
     private Rigidbody2D rb;
     private int jumpNumCount;
     private bool isInAir;
@@ -391,33 +394,57 @@ public class Player : MonoBehaviour
     {
         // 等待死亡动画播放
         yield return new WaitForSeconds(1.5f);
-
-        Debug.Log("1");
         
-        // 检查是否有存档点
+        if (useDeathTransitionScene)
+        {
+            // 保存当前场景信息（如果需要）
+            if (DataManager.Instance != null)
+            {
+                // 更新死亡次数
+                PlayerData data = DataManager.Instance.LoadCheckpoint();
+                data.deadCount = deadCount;
+                
+                // 如果需要，可以在这里保存其他数据
+                // DataManager.Instance.SaveToFile();
+            }
+            
+            // 加载死亡过渡场景
+            DeathTransitionSceneController.LoadDeathTransitionScene(deadReason);
+        }
+        else
+        {
+            // 使用原来的逻辑（在当前场景复活）
+            StartCoroutine(RespawnInCurrentSceneOld());
+        }
+    }
+
+    private IEnumerator RespawnInCurrentSceneOld()
+    {
+        // 原来的复活逻辑...
+        yield return new WaitForSeconds(3f);
+        
         if (DataManager.Instance != null)
         {
             PlayerData savedData = DataManager.Instance.LoadCheckpoint();
-            Debug.Log("2");
             
-            // 如果存档点场景与当前场景不同，需要加载场景
             if (savedData.checkpointSceneName != currentSceneName)
             {
-                Debug.Log("3");
-                // 加载存档点所在场景
-                SceneManager.LoadScene(savedData.checkpointSceneName);
+                if (SceneTransitionManager.Instance != null)
+                {
+                    SceneTransitionManager.Instance.LoadSceneWithSave(savedData.checkpointSceneName);
+                }
+                else
+                {
+                    SceneManager.LoadScene(savedData.checkpointSceneName);
+                }
             }
             else
             {
-                Debug.Log("4");
-                // 在同一场景中从存档点复活
                 RespawnFromCheckpoint(savedData);
             }
         }
         else
         {
-            Debug.Log("5");
-            // 没有DataManager，使用原来的复活逻辑
             RespawnInCurrentScene();
         }
     }
