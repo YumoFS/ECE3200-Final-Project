@@ -7,6 +7,8 @@ TagManager:
   - CodeSpacePlayer
   - DebugConsole
   - DestroyedData
+  - EnemyBullet
+  - Enemy
   layers:
   - Default
   - TransparentFX
