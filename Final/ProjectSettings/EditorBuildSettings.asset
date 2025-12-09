@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CodeSpace.unity
     guid: 8f752867213265f40aa9565e9193d2b7
+  - enabled: 1
+    path: Assets/Scenes/DeathTransitionScene.unity
+    guid: a110aa647828a0d4384927c186ada860
   m_configObjects: {}

@@ -365,6 +365,7 @@ public class Player : MonoBehaviour
         // 触发死亡动画
         if (animator != null)
         {
+            animator.SetBool("IsByVirgin", deadReason == "IronVirgin");
             animator.SetTrigger("Die");
         }
         
