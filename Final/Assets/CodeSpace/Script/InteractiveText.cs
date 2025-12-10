@@ -19,7 +19,7 @@ public class InteractiveText : MonoBehaviour
     private CodeSpacePlayer player;
     private DebugConsole debugConsole;
     private float canvasScale;
-    private Color initColor = new(196, 196, 196, 255);
+    private Color initColor = new(192, 192, 192, 255);
     private bool isPromptingWrong = false;
     private bool wrongPrompted = false;
     private float count;
@@ -88,6 +88,17 @@ public class InteractiveText : MonoBehaviour
     {
         Destroy(gameObject);
     }
+    public void ReleaseAndMoveToRandomPlace()
+    {
+        transform.SetParent(null, true);
+        float randomX = UnityEngine.Random.Range(-6.9f, 3.9f);
+        float randomY = UnityEngine.Random.Range(-1.4f, 3.9f);
+        Debug.Log(randomX + ", " + randomY);
+        Vector3 randomPos = new(randomX, randomY, 0);
+        SetNewInitColor(new Color(192, 192, 192, 255));
+        transform.SetLocalPositionAndRotation(randomPos, new Quaternion());
+        StartCoroutine(SetActiveAfter1s());
+    }
     public void UpdateWrongPrompt()
     {
         wrongPrompted = false;
@@ -134,5 +145,11 @@ public class InteractiveText : MonoBehaviour
             isPromptingWrong = false;
             wrongPrompted = true;
         }
+    }
+
+    IEnumerator SetActiveAfter1s()
+    {
+        yield return new WaitForSeconds(1f);
+        isInteractive = true;
     }
 }

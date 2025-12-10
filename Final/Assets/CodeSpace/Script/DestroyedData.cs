@@ -74,7 +74,7 @@ public class DestroyedData : MonoBehaviour
 
     public void ReturnToDestroyed()
     {
-        filledText.DestroySelf();
+        filledText.ReleaseAndMoveToRandomPlace();
         text.gameObject.SetActive(true);
         isFilled = false;
         debugConsole.InsertLog($"<color=#{UnityEngine.ColorUtility.ToHtmlStringRGBA(failedPromptColor)}>{text.password} Storage missed at {text.password}. Trying to repair...</color>");
