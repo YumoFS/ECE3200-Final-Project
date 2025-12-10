@@ -63,11 +63,51 @@ public class PendulumController : MonoBehaviour
         transform.rotation = rotation;
     }
     
+    // void OnTriggerEnter2D(Collider2D other)
+    // {
+    //     if (other.CompareTag("Player"))
+    //     {
+    //         DealDamageToPlayer(other.gameObject, other.ClosestPoint(transform.position));
+    //     }
+    // }
+
+    // 修改 PendulumController.cs 的 OnTriggerEnter2D 方法
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
-            DealDamageToPlayer(other.gameObject, other.ClosestPoint(transform.position));
+            Vector2 contactPoint = other.ClosestPoint(transform.position);
+            
+            // 记录碰撞信息到调试系统
+            if (CollisionDebugManager.Instance != null)
+            {
+                CollisionDebugManager.Instance.LogTrigger(other, "Pendulum");
+            }
+            else
+            {
+                Debug.LogWarning("CollisionDebugManager 未找到，无法显示调试信息");
+            }
+            
+            DealDamageToPlayer(other.gameObject, contactPoint);
+        }
+    }
+
+    // 或者如果是碰撞体（不是触发器），修改 OnCollisionEnter2D
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            // 记录碰撞信息到调试系统
+            if (CollisionDebugManager.Instance != null)
+            {
+                CollisionDebugManager.Instance.LogCollision(collision, "Pendulum");
+            }
+            else
+            {
+                Debug.LogWarning("CollisionDebugManager 未找到，无法显示调试信息");
+            }
+            
+            DealDamageToPlayer(collision.gameObject, collision.contacts[0].point);
         }
     }
     

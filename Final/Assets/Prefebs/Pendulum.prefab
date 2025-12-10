@@ -111,7 +111,7 @@ Transform:
   m_GameObject: {fileID: 4350251231070236318}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.4164768, w: 0.9091464}
-  m_LocalPosition: {x: -0.474, y: 0.77, z: 0.04966407}
+  m_LocalPosition: {x: -0.23, y: 0.09, z: 0.04966407}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -311,7 +311,7 @@ MonoBehaviour:
   hitEffect: {fileID: 0}
   hitSound: {fileID: 0}
   pivotPoint: {fileID: 7712543581137723930}
-  damageCollider: {fileID: 0}
+  damageCollider: {fileID: 5484169978988922077}
 --- !u!70 &5484169978988922077
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -344,6 +344,6 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.3265527, y: 0.62952846}
+  m_Offset: {x: 0, y: 0}
   m_Size: {x: 1.5356923, y: 2.8323944}
   m_Direction: 0

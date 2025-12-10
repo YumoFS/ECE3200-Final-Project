@@ -20,4 +20,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/DeathTransitionScene.unity
     guid: a110aa647828a0d4384927c186ada860
+  - enabled: 1
+    path: Assets/Scenes/Saves.unity
+    guid: e0c3f18387c5f5b4685d1a5ceaf87a06
+  - enabled: 1
+    path: Assets/Scenes/Start.unity
+    guid: 822df1a8ca7c8284fa28f336b742e057
   m_configObjects: {}
