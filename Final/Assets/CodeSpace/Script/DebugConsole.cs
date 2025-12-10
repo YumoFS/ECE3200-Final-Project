@@ -38,7 +38,6 @@ public class DebugConsole : MonoBehaviour
         if (counter > 2f)
         {
             counter = 0f;
-            InsertInterferenceLog();
         }
     }
 
