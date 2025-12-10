@@ -1716,6 +1716,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Idle (32x32)_0
       objectReference: {fileID: 0}
+    - target: {fileID: 4527771142571845960, guid: d309e4b692b0021428990f3066d19af0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9097841745651201942, guid: d309e4b692b0021428990f3066d19af0, type: 3}
       propertyPath: gameInputs
       value: 
@@ -1886,7 +1890,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 31eec18c546025d4da216b4da7636c1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 1721043494}
+  target: {fileID: 1721043508}
   smoothSpeed: 0.125
   offset: {x: 0, y: 0, z: -10}
   useBounds: 0
@@ -3332,11 +3336,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8958025075259296339, guid: f4bf27063f2b064418d9805c5514bc60, type: 3}
   m_PrefabInstance: {fileID: 509394843}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1721043494 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3208064704534452227, guid: d309e4b692b0021428990f3066d19af0, type: 3}
-  m_PrefabInstance: {fileID: 744532219}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1721043498 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9097841745651201942, guid: d309e4b692b0021428990f3066d19af0, type: 3}
@@ -3393,6 +3392,11 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.524971, y: 7.642522}
   m_EdgeRadius: 0
+--- !u!4 &1721043508 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3208064704534452227, guid: d309e4b692b0021428990f3066d19af0, type: 3}
+  m_PrefabInstance: {fileID: 744532219}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1725184983
 GameObject:
   m_ObjectHideFlags: 0
