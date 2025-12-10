@@ -240,7 +240,7 @@ GameObject:
   - component: {fileID: 1892509243079769219}
   - component: {fileID: 3156890692104502021}
   - component: {fileID: 8762154536341032134}
-  - component: {fileID: 6296451315992499728}
+  - component: {fileID: 479324419761353400}
   m_Layer: 0
   m_Name: Hammer
   m_TagString: Untagged
@@ -311,9 +311,9 @@ MonoBehaviour:
   hitEffect: {fileID: 0}
   hitSound: {fileID: 0}
   pivotPoint: {fileID: 7712543581137723930}
-  damageCollider: {fileID: 6296451315992499728}
---- !u!61 &6296451315992499728
-BoxCollider2D:
+  damageCollider: {fileID: 0}
+--- !u!68 &479324419761353400
+EdgeCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -344,16 +344,40 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.33283418, y: 0.64418983}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1.5298401, y: 2.8346424}
+  m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
+  m_Points:
+  - {x: 1.0852563, y: 0.08090101}
+  - {x: 0.979207, y: -0.007184081}
+  - {x: 0.8194881, y: -0.14465067}
+  - {x: 0.63791907, y: -0.24494298}
+  - {x: 0.5201444, y: -0.29803997}
+  - {x: 0.43934786, y: -0.317789}
+  - {x: 0.43482986, y: 1.2838145}
+  - {x: 0.46222693, y: 1.9263536}
+  - {x: 0.49256212, y: 2.054301}
+  - {x: 0.18291512, y: 2.0469322}
+  - {x: 0.21825565, y: 1.8295928}
+  - {x: 0.24096248, y: 1.0781127}
+  - {x: 0.2302275, y: 0.11581855}
+  - {x: 0.21604526, y: -0.31441998}
+  - {x: 0.098762296, y: -0.28257945}
+  - {x: -0.01671636, y: -0.22440386}
+  - {x: -0.20774837, y: -0.102689624}
+  - {x: -0.42920905, y: 0.09030605}
+  - {x: -0.42631206, y: -0.08628978}
+  - {x: -0.36935574, y: -0.30009702}
+  - {x: -0.28041726, y: -0.4613038}
+  - {x: -0.14633846, y: -0.61301655}
+  - {x: -0.016886346, y: -0.70696473}
+  - {x: 0.15797955, y: -0.774707}
+  - {x: 0.30243814, y: -0.7980257}
+  - {x: 0.4933854, y: -0.7804808}
+  - {x: 0.7292313, y: -0.67645216}
+  - {x: 0.9200986, y: -0.49305972}
+  - {x: 1.0698296, y: -0.19691226}
+  - {x: 1.0949119, y: 0.07648754}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
