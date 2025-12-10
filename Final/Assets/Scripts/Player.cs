@@ -27,10 +27,11 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask interactableLayer;
 
     [Header("玩家数据相关")]
-    private static int playerHitPointMax = 1;
     public int playerAttackPower = 1;
     [SerializeField] private float playerAttackDistance = 2f;
     [SerializeField] private float attackCooldown = 0.5f;
+    public string playerName;
+    private static int playerHitPointMax = 1;
 
     [SerializeField] private Transform attackPosition; 
     [SerializeField] private LayerMask enemyLayers;
@@ -76,6 +77,12 @@ public class Player : MonoBehaviour
             playerInitialPosition = transform.position;
             playerHitPoint = playerHitPointMax;
             hasTorch = false;
+
+            if (DataManager.Instance != null)
+            {
+                playerName = DataManager.Instance.GenerateRandomName();
+                DataManager.Instance.SetPlayerName(playerName);
+            }
         }
 
         if (attackPosition == null) attackPosition = transform;
@@ -167,6 +174,17 @@ public class Player : MonoBehaviour
         deadCount = savedData.deadCount;
         winCount = savedData.winCount;
         playerAttackPower = savedData.playerAttackPower;
+        
+        // 生成新的随机名字
+        if (DataManager.Instance != null)
+        {
+            playerName = DataManager.Instance.GenerateRandomName();
+            DataManager.Instance.SetPlayerName(playerName);
+        }
+        else
+        {
+            playerName = "New Adventurer";
+        }
         
         isAlive = true;
         
@@ -456,12 +474,23 @@ public class Player : MonoBehaviour
         rb.velocity = Vector3.zero;
         isAlive = true;
         playerHitPoint = playerHitPointMax;
+
+        if (DataManager.Instance != null)
+        {
+            playerName = DataManager.Instance.GenerateRandomName();
+            DataManager.Instance.SetPlayerName(playerName);
+        }
         
         // 重置动画状态
         if (animator != null)
         {
             animator.SetTrigger("Respawn");
         }
+    }
+
+    public string GetDisplayName()
+    {
+        return playerName;
     }
 
     private void DeadByFalling() { }
