@@ -47,7 +47,7 @@ public class InteractiveText : MonoBehaviour
         }
         else
         {
-            if (!player.overlapManager.IsContacting() || player.IsCarrying() || isInteractive) {
+            if (!player.overlapManager.IsContacting() || player.IsCarrying()) {
                 SetColorToInit();
             }
         }
@@ -74,7 +74,10 @@ public class InteractiveText : MonoBehaviour
     }
     public void SetColorToChosen()
     {
-        if (!isPromptingWrong) textDisplayer.color = chosenColor;
+        if (!isPromptingWrong) 
+        {
+            textDisplayer.color = chosenColor;
+        }
     }
     public void SetNewInitColor(Color newColor)
     {
@@ -93,7 +96,6 @@ public class InteractiveText : MonoBehaviour
         transform.SetParent(null, true);
         float randomX = UnityEngine.Random.Range(-6.9f, 3.9f);
         float randomY = UnityEngine.Random.Range(-1.4f, 3.9f);
-        Debug.Log(randomX + ", " + randomY);
         Vector3 randomPos = new(randomX, randomY, 0);
         SetNewInitColor(new Color(192, 192, 192, 255));
         transform.SetLocalPositionAndRotation(randomPos, new Quaternion());
@@ -106,7 +108,6 @@ public class InteractiveText : MonoBehaviour
 
     public void OnWrongTextMatched(Color textFailPrompt, Color consoleFailPrompt)
     {
-        Debug.Log(this + "on wrong text matched");
         if (!isPromptingWrong && !wrongPrompted)
         {
             count = 0;

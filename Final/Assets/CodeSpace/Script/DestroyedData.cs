@@ -12,6 +12,7 @@ public class DestroyedData : MonoBehaviour
     [SerializeField] private Color filledColor;
     [SerializeField] private Color failedConsolePromptColor;
     [SerializeField] private Color failedPromptColor;
+    [SerializeField] private string attributeToRepair;
     private DebugConsole debugConsole;
     private float counter;
     private CodeSpacePlayer player;
@@ -46,7 +47,6 @@ public class DestroyedData : MonoBehaviour
         {
             Collider2D[] allContactTextColliders = overlapManager.GetAllContactColliders();
             int contactNum = overlapManager.GetContactColliderNum();
-            Debug.Log(allContactTextColliders[0]);
             for (int i = 0; i < contactNum; i ++)
             {
                 
@@ -61,7 +61,7 @@ public class DestroyedData : MonoBehaviour
                     contactText.SetNewInitColor(filledColor);
                     isFilled = true;
                     filledText = contactText;
-                    debugConsole.InsertLog($"<color=#{UnityEngine.ColorUtility.ToHtmlStringRGBA(filledColor)}>{text.password} is successfully fixed.</color>");
+                    debugConsole.InsertLog($"<color=#{UnityEngine.ColorUtility.ToHtmlStringRGBA(filledColor)}>{attributeToRepair} is successfully repaired.</color>");
                 }
                 else
                 {
@@ -74,11 +74,11 @@ public class DestroyedData : MonoBehaviour
 
     public void ReturnToDestroyed()
     {
-        filledText.ReleaseAndMoveToRandomPlace();
+        filledText.DestroySelf();
         text.gameObject.SetActive(true);
         isFilled = false;
-        debugConsole.InsertLog($"<color=#{UnityEngine.ColorUtility.ToHtmlStringRGBA(failedPromptColor)}>{text.password} Storage missed at {text.password}. Trying to repair...</color>");
-        debugConsole.InsertLog($"<color=#{UnityEngine.ColorUtility.ToHtmlStringRGBA(failedPromptColor)}>{text.password} Failed to repair.</color>");
+        debugConsole.InsertLog($"<color=#{UnityEngine.ColorUtility.ToHtmlStringRGBA(failedPromptColor)}>Storage missed at {attributeToRepair}. Trying to repair...</color>");
+        debugConsole.InsertLog($"<color=#{UnityEngine.ColorUtility.ToHtmlStringRGBA(failedPromptColor)}>Failed to repair {attributeToRepair}.</color>");
     }
 
     /******* Public Methods ******/

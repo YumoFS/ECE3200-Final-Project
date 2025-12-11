@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textDisplayer: {fileID: 4445064613011704125}
   textCollider: {fileID: 1342646693024299139}
-  chosenColor: {r: 0.61006284, g: 0.61006284, b: 0.61006284, a: 1}
+  chosenColor: {r: 0.49056602, g: 0.49056602, b: 0.49056602, a: 1}
   password: 
   isInteractive: 1
 --- !u!61 &1342646693024299139
