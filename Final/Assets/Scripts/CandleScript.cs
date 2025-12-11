@@ -10,6 +10,8 @@ public class CandleScript : Interactable
 
     [SerializeField] private GameObject candleWithHole;
     [SerializeField] private GameObject candleWithoutHole;
+    [SerializeField] private GameObject candleCollider;
+    PlayerData playerData = DataManager.Instance.LoadCheckpoint();
     
     private void Start()
     {
@@ -17,6 +19,32 @@ public class CandleScript : Interactable
         {
             originalPosition = interactionPrompt.transform.position;
             interactionPrompt.SetActive(false);
+        }
+
+        if (playerData.hasArrivedEmptyThrone && playerData.hasDeadbyIronVirgin && playerData.hasDeadByTraps
+         && playerData.hasInteractedWithTorch && playerData.hasKilledBoss)
+        {
+            if (!playerData.hasFoundTheCandleHole)
+            {
+                gameObject.GetComponent<Collider2D>().enabled = true;
+                candleCollider.SetActive(true);
+                candleWithHole.SetActive(true);
+                candleWithoutHole.SetActive(false);
+            }
+            else
+            {
+                gameObject.GetComponent<Collider2D>().enabled = true;
+                candleCollider.SetActive(true);
+                candleWithHole.SetActive(false);
+                candleWithoutHole.SetActive(true);
+            }
+        }
+        else
+        {
+            gameObject.GetComponent<Collider2D>().enabled = false;
+            candleCollider.SetActive(false);
+            candleWithHole.SetActive(false);
+            candleWithoutHole.SetActive(true);
         }
     }
     

@@ -5047,11 +5047,20 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: -1995412785
       objectReference: {fileID: 0}
+    - target: {fileID: 7400194043441534177, guid: b82de2d7b6b6dea429a9a8c43e441534, type: 3}
+      propertyPath: candleCollider
+      value: 
+      objectReference: {fileID: 1193348560993327543}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b82de2d7b6b6dea429a9a8c43e441534, type: 3}
+--- !u!1 &1193348560993327543 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4725147088794672938, guid: b82de2d7b6b6dea429a9a8c43e441534, type: 3}
+  m_PrefabInstance: {fileID: 1193348560993327542}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3651312700103615348
 PrefabInstance:
   m_ObjectHideFlags: 0

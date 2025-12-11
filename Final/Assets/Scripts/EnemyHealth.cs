@@ -35,6 +35,11 @@ public class EnemyHealth : MonoBehaviour
     void Die()
     {
         isDead = true;
+
+        if (DataManager.Instance != null)
+        {
+            DataManager.Instance.SetEndingFlag("hasKilledBoss", true);
+        }
         
         // 播放死亡动画
         // if (animator != null)
@@ -50,7 +55,7 @@ public class EnemyHealth : MonoBehaviour
             collider.enabled = false;
         
         // 销毁敌人（可延迟销毁以播放动画）
-        Destroy(gameObject, 2f);
+        Destroy(gameObject, 1f);
         
         Debug.Log(gameObject.name + " 被击败!");
     }
