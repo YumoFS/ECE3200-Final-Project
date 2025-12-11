@@ -12,6 +12,7 @@ public class DemonSummoner : MonoBehaviour
     private DestroyedData[] destroyedDatas;
     private float randomDestroyTime;
     private float count = 0;
+    private bool isDemonBeingAwaked = false;
 
     private void Awake()
     {
@@ -43,11 +44,23 @@ public class DemonSummoner : MonoBehaviour
             {
                 int indexToBeDestroyed = fixedDataIndexSet[Random.Range(0, fixedDataNum)];
                 debugConsole.InsertInterferenceLog();
-                SummonDemonAndDestroy(destroyedDatas[indexToBeDestroyed]);
+                isDemonBeingAwaked = true;
+                StartCoroutine(SummonDemonAndDestroyAfter60Frames(destroyedDatas[indexToBeDestroyed]));
             }
             count = 0;
             randomDestroyTime = Random.Range(minDemonAppearTime, maxDemonAppearTime);
         }
+    }
+
+    public bool IsDemonBeingAwaked()
+    {
+        return isDemonBeingAwaked;
+    }
+
+    IEnumerator SummonDemonAndDestroyAfter60Frames(DestroyedData destroyedData)
+    {
+        yield return new WaitForSeconds(1f);
+        SummonDemonAndDestroy(destroyedData);
     }
 
     private void SummonDemonAndDestroy(DestroyedData destroyedData)
@@ -58,17 +71,18 @@ public class DemonSummoner : MonoBehaviour
         Animator demonAnimator = demon.GetComponent<Animator>();
         demonAnimator.SetTrigger("ToAppearAndAttack");
         StartCoroutine(DestroyRepairedDataAfter90Frames(destroyedData));
-        StartCoroutine(DisableDemonAfter210Frames(destroyedData));
+        StartCoroutine(DisableDemonAfter210Frames());
     }
     IEnumerator DestroyRepairedDataAfter90Frames(DestroyedData destroyedData)
     {
         yield return new WaitForSeconds(1.5f);
         destroyedData.ReturnToDestroyed();
     }
-    IEnumerator DisableDemonAfter210Frames(DestroyedData destroyedData)
+    IEnumerator DisableDemonAfter210Frames()
     {
         yield return new WaitForSeconds(3.5f);
         demon.SetActive(false);
+        isDemonBeingAwaked = false;
     }
 
 }

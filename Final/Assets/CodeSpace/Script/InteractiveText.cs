@@ -22,6 +22,7 @@ public class InteractiveText : MonoBehaviour
     private Color initColor = new(192, 192, 192, 255);
     private bool isPromptingWrong = false;
     private bool wrongPrompted = false;
+    private float disappearCount;
     private float count;
     public string password = "";
     public bool isInteractive = true;
@@ -29,6 +30,7 @@ public class InteractiveText : MonoBehaviour
     /********************** System Calls **********************/
     private void Awake()
     {
+        disappearCount = 3600;
         count = 0;
         canvasScale = GetComponentInChildren<Canvas>().GetComponent<RectTransform>().localScale.x;
         AdaptColliderToText();
@@ -51,12 +53,25 @@ public class InteractiveText : MonoBehaviour
                 SetColorToInit();
             }
         }
+        if (isInteractive)
+        {
+            if (GetComponentInParent<CodeSpacePlayer>() != player)
+            {
+                disappearCount -= Time.deltaTime;
+                if (disappearCount <= 0)
+                    DestroySelf();
+            }
+        }
     }
 
     /********************** Public Methods **********************/
     public BoxCollider2D GetCollider()
     {
         return textCollider;
+    }
+    public void SetDisappearCount(float second)
+    {
+        disappearCount = second;
     }
     public void SetTextContent(string newContent, int newFontSize)
     {
@@ -116,6 +131,11 @@ public class InteractiveText : MonoBehaviour
             debugConsole.InsertLog($"<color=#{UnityEngine.ColorUtility.ToHtmlStringRGBA(consoleFailPrompt)}>{password} should not be placed here...</color>");
         }
     }   
+
+    public Color GetDefaultColor()
+    {
+        return initColor;
+    }
 
     /********************** Functions **********************/
     private void AdaptColliderToText()
