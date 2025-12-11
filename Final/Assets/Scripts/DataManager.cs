@@ -12,9 +12,9 @@ public class DataManager : MonoBehaviour
     
     // 新增：名字池配置
     [Header("随机名字配置")]
-    [SerializeField] private NamePool namePool;
-    [SerializeField] private bool useTitles = true;
+    [SerializeField] private bool useTitles = false;
     [SerializeField] private int nameStyle = 0; // 0: 简单, 1: 完整, 2: 带称号
+    private NamePool namePool = new NamePool();
  
     [Header("自动保存设置")]
     [SerializeField] private float autoSaveInterval = 60f; // 自动保存间隔（秒）
@@ -32,12 +32,6 @@ public class DataManager : MonoBehaviour
             
             // 从文件加载数据
             LoadFromFile();
-            
-            // 初始化名字池（如果为空）
-            if (namePool == null)
-            {
-                namePool = new NamePool();
-            }
             
             // 加载名字历史
             LoadNameHistory();
@@ -109,7 +103,7 @@ public class DataManager : MonoBehaviour
         }
         
         // 避免重复名字（可选）
-        if (nameHistory.Contains(fullName) && nameHistory.Count < 50)
+        if (nameHistory.Contains(fullName) && nameHistory.Count < 30)
         {
             // 如果名字重复且历史记录不多，尝试重新生成
             return GenerateRandomName();
@@ -117,7 +111,7 @@ public class DataManager : MonoBehaviour
         
         // 添加到历史记录
         nameHistory.Add(fullName);
-        if (nameHistory.Count > 100) // 限制历史记录长度
+        if (nameHistory.Count > 50) // 限制历史记录长度
         {
             nameHistory.RemoveAt(0);
         }
@@ -159,6 +153,7 @@ public class DataManager : MonoBehaviour
         currentPlayerData.deadCount = player.deadCount;
         currentPlayerData.winCount = player.winCount;
         currentPlayerData.playerAttackPower = player.playerAttackPower;
+        currentPlayerData.currentTime = player.currentTime;
         
         // 可以添加保存到文件的功能
         SaveToFile();
@@ -178,6 +173,7 @@ public class DataManager : MonoBehaviour
         currentPlayerData.deadCount = player.deadCount;
         currentPlayerData.winCount = player.winCount;
         currentPlayerData.playerAttackPower = player.playerAttackPower;
+        currentPlayerData.currentTime = player.currentTime;
         
         // 保存到文件
         SaveToFile();
@@ -202,6 +198,7 @@ public class DataManager : MonoBehaviour
         currentPlayerData.deadCount = 0;
         currentPlayerData.winCount = 0;
         currentPlayerData.playerAttackPower = 1;
+        currentPlayerData.currentTime = UnityEngine.Random.Range(1000, 1200);
         
         // 生成初始随机名字
         currentPlayerData.playerName = GenerateRandomName();

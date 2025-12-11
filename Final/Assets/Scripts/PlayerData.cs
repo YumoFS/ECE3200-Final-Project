@@ -14,6 +14,7 @@ public class PlayerData
     public int deadCount = 0;
     public int winCount = 0;
     public int playerAttackPower = 1;
+    public int currentTime = Random.Range(1000, 1200);
 
     //结局对话相关
     public bool hasArrivedEmptyThrone = false;

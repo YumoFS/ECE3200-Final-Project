@@ -221,45 +221,7 @@ MonoBehaviour:
     checkpointSceneName: 
     collectedItems: []
     completedQuests: []
-  namePool:
-    firstNamePool:
-    - Brave
-    - Shadow
-    - Iron
-    - Swift
-    - Dark
-    - Mystic
-    - Wild
-    - Steel
-    - Frost
-    - Flame
-    middleNamePool:
-    - of the
-    - the
-    - from
-    - son of
-    - daughter of
-    lastNamePool:
-    - Mountain
-    - Forest
-    - Sea
-    - Sky
-    - Night
-    - Sun
-    - Moon
-    - Star
-    - River
-    - Stone
-    titlePool:
-    - the Hero
-    - the Warrior
-    - the Mage
-    - the Rogue
-    - the Explorer
-    - the Guardian
-    - the Slayer
-    - the Wanderer
-  useTitles: 1
+  useTitles: 0
   nameStyle: 0
   autoSaveInterval: 60
 --- !u!4 &59282223

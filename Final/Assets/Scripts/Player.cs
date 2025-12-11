@@ -47,6 +47,7 @@ public class Player : MonoBehaviour
     }
     public int deadCount;
     public int winCount;
+    public int currentTime;
 
     [SerializeField] private GameInputs gameInputs;
     [SerializeField] private float moveSpeed = 10f;
@@ -157,6 +158,7 @@ public class Player : MonoBehaviour
         winCount = data.winCount;
         playerAttackPower = data.playerAttackPower;
         playerName = data.playerName;
+        currentTime = data.currentTime;
         
         // 恢复结局相关属性
         if (DataManager.Instance != null)
@@ -177,6 +179,7 @@ public class Player : MonoBehaviour
         winCount = 0;
         playerAttackPower = 1;
         playerName = "Player";
+        currentTime = UnityEngine.Random.Range(1000, 1200);
     }
 
     private void OnDestroy()
@@ -302,14 +305,26 @@ public class Player : MonoBehaviour
     {
         shouldRespawnFromCheckpoint = true;
         
-        // 恢复属性
+        // 恢复属性（从存档数据）
         playerHitPoint = savedData.playerHitPoint;
         playerHitPointMax = savedData.playerHitPointMax;
         hasTorch = savedData.hasTorch;
         deadCount = savedData.deadCount;
         winCount = savedData.winCount;
         playerAttackPower = savedData.playerAttackPower;
-        playerName = savedData.playerName;
+        currentTime = savedData.currentTime;
+        
+        // 重要：生成新的随机名字，而不是使用存档中的名字
+        if (DataManager.Instance != null)
+        {
+            // 生成新的随机名字
+            playerName = DataManager.Instance.GenerateRandomName();
+            DataManager.Instance.SetPlayerName(playerName);
+        }
+        else
+        {
+            playerName = "New Adventurer";
+        }
         
         // 设置位置
         transform.position = savedData.checkpointPosition;
@@ -322,7 +337,7 @@ public class Player : MonoBehaviour
         
         isAlive = true;
         
-        Debug.Log($"从存档点复活 - 生命值: {playerHitPoint}, 火炬: {hasTorch}, 名字: {playerName}");
+        Debug.Log($"从存档点复活 - 新名字: {playerName}, 生命值: {playerHitPoint}, 火炬: {hasTorch}");
     }
 
     public void SetCheckpoint(Transform checkpoint)
@@ -511,6 +526,7 @@ public class Player : MonoBehaviour
         
         isAlive = false;
         deadCount++;
+        currentTime += UnityEngine.Random.Range(20, 25);
 
         // 触发死亡动画
         if (animator != null)
@@ -566,6 +582,7 @@ public class Player : MonoBehaviour
                 // 更新死亡次数
                 PlayerData data = DataManager.Instance.LoadCheckpoint();
                 data.deadCount = deadCount;
+                data.currentTime = currentTime;
                 
                 // 如果需要，可以在这里保存其他数据
                 // DataManager.Instance.SaveToFile();
@@ -616,6 +633,12 @@ public class Player : MonoBehaviour
 
     private void RespawnInCurrentScene()
     {
+        if (DataManager.Instance != null)
+        {
+            playerName = DataManager.Instance.GenerateRandomName();
+            DataManager.Instance.SetPlayerName(playerName);
+        }
+
         transform.position = playerInitialPosition;
         rb.velocity = Vector3.zero;
         isAlive = true;

@@ -52,7 +52,7 @@ public class DeathTransitionSceneController : MonoBehaviour
             deathCount = data.deadCount;
             winCount = data.winCount;
             playerName = data.playerName;
-            currentTime = Random.Range(1000, 1200) + Random.Range(20, 25) * deathCount;
+            currentTime = data.currentTime;
         }
         
         // 获取死亡原因
