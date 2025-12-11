@@ -17,6 +17,13 @@ public class ThroneScript : MonoBehaviour
                 Enemy.SetActive(true);
                 Destroy(gameObject);
             }
+            else
+            {
+                if (DataManager.Instance != null)
+                {
+                    DataManager.Instance.SetEndingFlag("hasArrivedEmptyThrone", true);
+                }
+            }
         }
     }
 }
