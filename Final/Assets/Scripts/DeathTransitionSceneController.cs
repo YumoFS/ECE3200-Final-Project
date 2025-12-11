@@ -12,6 +12,8 @@ public class DeathTransitionSceneController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI countdownText;
     [SerializeField] private TextMeshProUGUI deathReasonText;
     [SerializeField] private TextMeshProUGUI deathStatsText;
+    [SerializeField] private TextMeshProUGUI playerNameText;
+    [SerializeField] private TextMeshProUGUI timeText;
     
     [Header("设置")]
     [SerializeField] private float fadeInDuration = 1f;
@@ -22,6 +24,8 @@ public class DeathTransitionSceneController : MonoBehaviour
     private string reason;
     private int deathCount;
     private int winCount;
+    private string playerName;
+    private int currentTime;
     
     void Start()
     {
@@ -47,6 +51,8 @@ public class DeathTransitionSceneController : MonoBehaviour
             checkpointSceneName = data.checkpointSceneName;
             deathCount = data.deadCount;
             winCount = data.winCount;
+            playerName = data.playerName;
+            currentTime = Random.Range(1000, 1200) + Random.Range(20, 25) * deathCount;
         }
         
         // 获取死亡原因
@@ -61,6 +67,16 @@ public class DeathTransitionSceneController : MonoBehaviour
         if (deathStatsText != null)
         {
             deathStatsText.text = $"Deaths: {deathCount} | Wins: {winCount}";
+        }
+
+        if (playerNameText != null)
+        {
+            playerNameText.text = $"Player Name: {playerName}";
+        }
+
+        if (timeText != null)
+        {
+            timeText.text = $"Time: {currentTime} AD";
         }
     }
     

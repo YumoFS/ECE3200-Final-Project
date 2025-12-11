@@ -122,6 +122,55 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &24041222
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 24041224}
+  - component: {fileID: 24041223}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &24041223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 24041222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d552b24685493b42bd9df304113b102, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isGamePaused: 0
+  isGameOver: 0
+  isPlayerAlive: 1
+  player: {fileID: 9097841745651201942, guid: d309e4b692b0021428990f3066d19af0, type: 3}
+  dataManager: {fileID: 59282222}
+--- !u!4 &24041224
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 24041222}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -35.47453, y: 348.7637, z: -5.4713664}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &59282221
 GameObject:
   m_ObjectHideFlags: 0
@@ -212,6 +261,7 @@ MonoBehaviour:
     - the Wanderer
   useTitles: 1
   nameStyle: 0
+  autoSaveInterval: 60
 --- !u!4 &59282223
 Transform:
   m_ObjectHideFlags: 0
@@ -1024,7 +1074,6 @@ GameObject:
   - component: {fileID: 1657841783}
   - component: {fileID: 1657841782}
   - component: {fileID: 1657841781}
-  - component: {fileID: 1657841784}
   m_Layer: 5
   m_Name: NewGame
   m_TagString: Untagged
@@ -1096,9 +1145,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1657841784}
-        m_TargetAssemblyTypeName: NewGameButton, Assembly-CSharp
-        m_MethodName: OnButtonClicked
+      - m_Target: {fileID: 24041223}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: StartNewGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1146,19 +1195,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1657841779}
   m_CullTransparentMesh: 1
---- !u!114 &1657841784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1657841779}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f914b095c8310974a9a21f725eaf6cf2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  targetScene: CastleOutside
 --- !u!1 &1720853652
 GameObject:
   m_ObjectHideFlags: 0
@@ -1399,7 +1435,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 813, y: -255}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1908013291
@@ -1445,7 +1481,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1908013292}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 24041223}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: LoadGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1908013292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1597,3 +1645,4 @@ SceneRoots:
   - {fileID: 59282223}
   - {fileID: 2143640017}
   - {fileID: 1720853655}
+  - {fileID: 24041224}

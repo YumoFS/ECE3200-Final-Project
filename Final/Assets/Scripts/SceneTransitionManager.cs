@@ -26,13 +26,26 @@ public class SceneTransitionManager : MonoBehaviour
     // 加载场景并保存当前状态
     public void LoadSceneWithSave(string sceneName)
     {
+        SavePlayerDataBeforeTransition();
+        
         StartCoroutine(TransitionToScene(sceneName));
+    }
+
+    private void SavePlayerDataBeforeTransition()
+    {
+        Player player = FindObjectOfType<Player>();
+        if (player != null && DataManager.Instance != null)
+        {
+            player.SavePlayerDataToDataManager();
+            Debug.Log("场景切换前已保存玩家数据");
+        }
     }
     
     // 重新加载当前场景（用于死亡后复活）
     public void ReloadCurrentScene()
     {
         string currentScene = SceneManager.GetActiveScene().name;
+        SavePlayerDataBeforeTransition();
         LoadSceneWithSave(currentScene);
     }
     
@@ -44,6 +57,7 @@ public class SceneTransitionManager : MonoBehaviour
         
         // 等待转场动画
         yield return new WaitForSeconds(transitionTime);
+        SavePlayerDataBeforeTransition();
         
         // 加载新场景
         SceneManager.LoadScene(sceneName);

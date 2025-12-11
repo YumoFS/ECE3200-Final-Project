@@ -1,6 +1,8 @@
 // DataManager.cs - 玩家数据管理器
 using UnityEngine;
 using System.Collections.Generic;
+using System;
+using System.IO;
 
 public class DataManager : MonoBehaviour
 {
@@ -13,6 +15,10 @@ public class DataManager : MonoBehaviour
     [SerializeField] private NamePool namePool;
     [SerializeField] private bool useTitles = true;
     [SerializeField] private int nameStyle = 0; // 0: 简单, 1: 完整, 2: 带称号
+ 
+    [Header("自动保存设置")]
+    [SerializeField] private float autoSaveInterval = 60f; // 自动保存间隔（秒）
+    private float autoSaveTimer = 0f;
 
     private List<string> nameHistory = new List<string>();
     
@@ -24,12 +30,8 @@ public class DataManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
             
-            // 如果还没有数据，初始化新数据
-            if (currentPlayerData == null)
-            {
-                currentPlayerData = new PlayerData();
-                ResetToInitialState();
-            }
+            // 从文件加载数据
+            LoadFromFile();
             
             // 初始化名字池（如果为空）
             if (namePool == null)
@@ -39,10 +41,33 @@ public class DataManager : MonoBehaviour
             
             // 加载名字历史
             LoadNameHistory();
+            
+            Debug.Log("DataManager初始化完成");
         }
         else
         {
             Destroy(gameObject);
+        }
+    }
+
+    private void Update()
+    {
+        // 自动保存计时
+        autoSaveTimer += Time.deltaTime;
+        if (autoSaveTimer >= autoSaveInterval)
+        {
+            AutoSave();
+            autoSaveTimer = 0f;
+        }
+    }
+
+    // 自动保存
+    private void AutoSave()
+    {
+        if (currentPlayerData != null)
+        {
+            SaveToFile();
+            Debug.Log($"自动保存完成 - {DateTime.Now:HH:mm:ss}");
         }
     }
     
@@ -129,7 +154,7 @@ public class DataManager : MonoBehaviour
         // 保存玩家属性
         currentPlayerData.playerName = player.playerName; // 新增
         currentPlayerData.playerHitPoint = player.playerHitPoint;
-        currentPlayerData.playerHitPointMax = 1; // 根据你的代码，这是静态变量
+        currentPlayerData.playerHitPointMax = player.playerHitPointMax;
         currentPlayerData.hasTorch = player.hasTorch;
         currentPlayerData.deadCount = player.deadCount;
         currentPlayerData.winCount = player.winCount;
@@ -137,10 +162,29 @@ public class DataManager : MonoBehaviour
         
         // 可以添加保存到文件的功能
         SaveToFile();
-        
-        Debug.Log($"存档点已保存 - 场景: {sceneName}, 位置: {position}");
+    
+        Debug.Log($"存档点已保存 - 场景: {sceneName}, 位置: {position}, 生命值: {player.playerHitPoint}");
     }
     
+    public void SaveAllPlayerData(Player player)
+    {
+        if (player == null || currentPlayerData == null) return;
+        
+        // 保存基础属性
+        currentPlayerData.playerName = player.playerName;
+        currentPlayerData.playerHitPoint = player.playerHitPoint;
+        currentPlayerData.playerHitPointMax = player.playerHitPointMax;
+        currentPlayerData.hasTorch = player.hasTorch;
+        currentPlayerData.deadCount = player.deadCount;
+        currentPlayerData.winCount = player.winCount;
+        currentPlayerData.playerAttackPower = player.playerAttackPower;
+        
+        // 保存到文件
+        SaveToFile();
+        
+        Debug.Log($"玩家所有数据已保存: {player.playerName}");
+    }
+
     // 加载存档点数据
     public PlayerData LoadCheckpoint()
     {
@@ -169,7 +213,7 @@ public class DataManager : MonoBehaviour
         if (array == null || array.Length == 0)
             return "";
         
-        return array[Random.Range(0, array.Length)];
+        return array[UnityEngine.Random.Range(0, array.Length)];
     }
     
     // 新增：保存名字历史到PlayerPrefs
@@ -204,19 +248,60 @@ public class DataManager : MonoBehaviour
     // 保存到文件（如果需要持久化存档）
     private void SaveToFile()
     {
-        // 可以使用PlayerPrefs或JSON文件
-        string json = JsonUtility.ToJson(currentPlayerData);
-        PlayerPrefs.SetString("PlayerSaveData", json);
-        PlayerPrefs.Save();
+        try
+        {
+            string json = JsonUtility.ToJson(currentPlayerData, true);
+            PlayerPrefs.SetString("PlayerSaveData", json);
+            PlayerPrefs.Save();
+            
+            // 同时保存一份到本地文件（可选）
+            string filePath = Path.Combine(Application.persistentDataPath, "player_save.json");
+            File.WriteAllText(filePath, json);
+            
+            Debug.Log($"数据已保存到: {filePath}");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"保存数据时出错: {e.Message}");
+        }
     }
     
     // 从文件加载（如果需要）
     public void LoadFromFile()
     {
-        if (PlayerPrefs.HasKey("PlayerSaveData"))
+        try
         {
-            string json = PlayerPrefs.GetString("PlayerSaveData");
-            currentPlayerData = JsonUtility.FromJson<PlayerData>(json);
+            // 先尝试从PlayerPrefs加载
+            if (PlayerPrefs.HasKey("PlayerSaveData"))
+            {
+                string json = PlayerPrefs.GetString("PlayerSaveData");
+                currentPlayerData = JsonUtility.FromJson<PlayerData>(json);
+                Debug.Log("从PlayerPrefs加载玩家数据");
+            }
+            else
+            {
+                // 尝试从本地文件加载
+                string filePath = Path.Combine(Application.persistentDataPath, "player_save.json");
+                if (File.Exists(filePath))
+                {
+                    string json = File.ReadAllText(filePath);
+                    currentPlayerData = JsonUtility.FromJson<PlayerData>(json);
+                    Debug.Log($"从文件加载玩家数据: {filePath}");
+                }
+                else
+                {
+                    // 没有保存文件，创建新数据
+                    currentPlayerData = new PlayerData();
+                    ResetToInitialState();
+                    Debug.Log("创建新的玩家数据");
+                }
+            }
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"加载数据时出错: {e.Message}");
+            currentPlayerData = new PlayerData();
+            ResetToInitialState();
         }
     }
 

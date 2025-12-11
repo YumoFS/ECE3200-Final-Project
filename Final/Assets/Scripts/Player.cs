@@ -8,8 +8,43 @@ public class Player : MonoBehaviour
 {
     public bool isAlive;
     public string deadReason;
-    public int playerHitPoint = 1;
-    public bool hasTorch;
+    private bool _hasTorch;
+    public bool hasTorch
+    {
+        get { return _hasTorch; }
+        set
+        {
+            if (_hasTorch != value)
+            {
+                _hasTorch = value;
+                
+                // 自动保存
+                if (DataManager.Instance != null)
+                {
+                    DataManager.Instance.SetEndingFlag("hasInteractedWithTorch", value);
+                    SavePlayerDataToDataManager();
+                }
+            }
+        }
+    }
+    private int _playerHitPoint;
+    public int playerHitPoint
+    {
+        get { return _playerHitPoint; }
+        set
+        {
+            if (_playerHitPoint != value)
+            {
+                _playerHitPoint = value;
+                
+                // 生命值变化时自动保存
+                if (DataManager.Instance != null && Mathf.Abs(_playerHitPoint - value) > 0)
+                {
+                    SavePlayerDataToDataManager();
+                }
+            }
+        }
+    }
     public int deadCount;
     public int winCount;
 
@@ -31,7 +66,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float playerAttackDistance = 2f;
     [SerializeField] private float attackCooldown = 0.5f;
     public string playerName;
-    private static int playerHitPointMax = 1;
+    public int playerHitPointMax = 1;
 
     [SerializeField] private Transform attackPosition; 
     [SerializeField] private LayerMask enemyLayers;
@@ -58,34 +93,90 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        // 如果Animator没有在Inspector中分配，尝试获取
         if (animator == null)
             animator = GetComponent<Animator>();
+        
+        // 初始化属性
+        _hasTorch = false;
+        _playerHitPoint = playerHitPointMax;
     }
 
     private void Start()
     {
         currentSceneName = SceneManager.GetActiveScene().name;
 
-        InitializePlayerPosition();
+        LoadPlayerData();
 
         SceneManager.sceneLoaded += OnSceneLoaded;
 
-        if (!shouldRespawnFromCheckpoint)
-        {
-            isAlive = true;
-            playerInitialPosition = transform.position;
-            playerHitPoint = playerHitPointMax;
-            hasTorch = false;
-
-            if (DataManager.Instance != null)
-            {
-                playerName = DataManager.Instance.GenerateRandomName();
-                DataManager.Instance.SetPlayerName(playerName);
-            }
-        }
-
         if (attackPosition == null) attackPosition = transform;
+    }
+
+    private void LoadPlayerData()
+    {
+        if (DataManager.Instance == null)
+        {
+            Debug.LogWarning("DataManager 未找到，使用默认值初始化");
+            InitializeWithDefaultValues();
+            return;
+        }
+        
+        // 从 DataManager 加载数据
+        PlayerData savedData = DataManager.Instance.LoadCheckpoint();
+        
+        // 检查是否需要从存档点复活
+        if (!string.IsNullOrEmpty(savedData.checkpointSceneName) && 
+            savedData.checkpointSceneName == currentSceneName)
+        {
+            // 从存档点复活
+            RespawnFromCheckpoint(savedData);
+        }
+        else
+        {
+            // 进入新场景，但保留玩家数据
+            ApplyPlayerData(savedData);
+            
+            // 设置位置为场景出生点
+            Vector3 spawnPosition = GetSceneSpawnPosition();
+            transform.position = spawnPosition;
+            playerInitialPosition = spawnPosition;
+            
+            isAlive = true;
+            
+            Debug.Log($"进入新场景，保留玩家数据，出生点: {spawnPosition}");
+        }
+    }
+
+    private void ApplyPlayerData(PlayerData data)
+    {
+        // 恢复属性
+        playerHitPoint = data.playerHitPoint;
+        playerHitPointMax = data.playerHitPointMax;
+        hasTorch = data.hasTorch;
+        deadCount = data.deadCount;
+        winCount = data.winCount;
+        playerAttackPower = data.playerAttackPower;
+        playerName = data.playerName;
+        
+        // 恢复结局相关属性
+        if (DataManager.Instance != null)
+        {
+            // 这里逐个恢复结局标志，或者可以在PlayerData中添加方法
+            // 暂时只恢复基础数据，结局标志在需要时从DataManager查询
+        }
+    }
+
+    // 使用默认值初始化
+    private void InitializeWithDefaultValues()
+    {
+        isAlive = true;
+        playerInitialPosition = transform.position;
+        playerHitPoint = playerHitPointMax;
+        hasTorch = false;
+        deadCount = 0;
+        winCount = 0;
+        playerAttackPower = 1;
+        playerName = "Player";
     }
 
     private void OnDestroy()
@@ -96,7 +187,34 @@ public class Player : MonoBehaviour
     private void OnSceneLoaded(UnityEngine.SceneManagement.Scene scene, UnityEngine.SceneManagement.LoadSceneMode mode)
     {
         currentSceneName = scene.name;
+        
+        // 确保玩家数据在场景切换后仍然保留
+        if (DataManager.Instance != null)
+        {
+            // 保存当前状态到DataManager
+            SavePlayerDataToDataManager();
+        }
+        
+        // 初始化位置
         InitializePlayerPosition();
+    }
+
+    public void SavePlayerDataToDataManager()
+    {
+        if (DataManager.Instance == null) return;
+        
+        // 使用当前的检查点或玩家位置
+        Vector3 savePosition = currentCheckpoint != null ? 
+            currentCheckpoint.position : transform.position;
+        
+        // 保存到DataManager
+        DataManager.Instance.SaveCheckpoint(
+            savePosition, 
+            currentSceneName, 
+            this
+        );
+        
+        Debug.Log($"玩家数据已保存到DataManager: {playerName}, HP: {playerHitPoint}");
     }
 
     private void InitializePlayerPosition()
@@ -141,7 +259,7 @@ public class Player : MonoBehaviour
         
         PlayerData savedData = DataManager.Instance.LoadCheckpoint();
         
-        // 如果存档点场景与当前场景相同，且不是刚进入游戏
+        // 如果存档点场景与当前场景相同，则从存档点复活
         if (!string.IsNullOrEmpty(savedData.checkpointSceneName) && 
             savedData.checkpointSceneName == currentSceneName)
         {
@@ -150,22 +268,39 @@ public class Player : MonoBehaviour
         }
         else
         {
-            // 新场景或没有存档点，使用初始位置
-            transform.position = playerInitialPosition;
+            // 场景不同，使用DataManager中的数据来设置属性
+            ApplyPlayerData(savedData);
+            
+            // 设置位置为新场景的出生点
+            Vector3 spawnPosition = GetSceneSpawnPosition();
+            transform.position = spawnPosition;
+            playerInitialPosition = spawnPosition;
+            
             isAlive = true;
-            playerHitPoint = playerHitPointMax;
-            hasTorch = false;
-            deadCount = 0;
-            winCount = 0;
+            
+            Debug.Log($"进入新场景，使用DataManager数据，出生点: {spawnPosition}");
         }
+    }
+
+    private Vector3 GetSceneSpawnPosition()
+    {
+        // 尝试从SceneSpawnManager获取出生点
+        if (SceneSpawnManager.Instance != null)
+        {
+            Vector3 spawnPosition = SceneSpawnManager.Instance.GetSpawnPosition();
+            if (spawnPosition != Vector3.zero)
+            {
+                return spawnPosition;
+            }
+        }
+        
+        // 否则使用Inspector中设置的初始位置
+        return playerInitialPosition;
     }
 
     private void RespawnFromCheckpoint(PlayerData savedData)
     {
         shouldRespawnFromCheckpoint = true;
-        
-        // 设置位置
-        transform.position = savedData.checkpointPosition;
         
         // 恢复属性
         playerHitPoint = savedData.playerHitPoint;
@@ -174,19 +309,10 @@ public class Player : MonoBehaviour
         deadCount = savedData.deadCount;
         winCount = savedData.winCount;
         playerAttackPower = savedData.playerAttackPower;
+        playerName = savedData.playerName;
         
-        // 生成新的随机名字
-        if (DataManager.Instance != null)
-        {
-            playerName = DataManager.Instance.GenerateRandomName();
-            DataManager.Instance.SetPlayerName(playerName);
-        }
-        else
-        {
-            playerName = "New Adventurer";
-        }
-        
-        isAlive = true;
+        // 设置位置
+        transform.position = savedData.checkpointPosition;
         
         // 触发复活动画
         if (animator != null)
@@ -194,7 +320,9 @@ public class Player : MonoBehaviour
             animator.SetTrigger("Respawn");
         }
         
-        Debug.Log($"从存档点复活 - 生命值: {playerHitPoint}, 火炬: {hasTorch}");
+        isAlive = true;
+        
+        Debug.Log($"从存档点复活 - 生命值: {playerHitPoint}, 火炬: {hasTorch}, 名字: {playerName}");
     }
 
     public void SetCheckpoint(Transform checkpoint)
@@ -252,6 +380,11 @@ public class Player : MonoBehaviour
         {
             jumpNumCount ++;
             isInAir = true;
+        }
+
+        if (Time.time % 30f < Time.deltaTime && DataManager.Instance != null)
+        {
+            SavePlayerDataToDataManager();
         }
     }
 
@@ -450,7 +583,6 @@ public class Player : MonoBehaviour
 
     private IEnumerator RespawnInCurrentSceneOld()
     {
-        // 原来的复活逻辑...
         yield return new WaitForSeconds(3f);
         
         if (DataManager.Instance != null)
@@ -459,6 +591,7 @@ public class Player : MonoBehaviour
             
             if (savedData.checkpointSceneName != currentSceneName)
             {
+                // 加载存档点场景
                 if (SceneTransitionManager.Instance != null)
                 {
                     SceneTransitionManager.Instance.LoadSceneWithSave(savedData.checkpointSceneName);
@@ -470,11 +603,13 @@ public class Player : MonoBehaviour
             }
             else
             {
+                // 在当前场景从存档点复活
                 RespawnFromCheckpoint(savedData);
             }
         }
         else
         {
+            // 没有DataManager，使用旧的复活逻辑
             RespawnInCurrentScene();
         }
     }
