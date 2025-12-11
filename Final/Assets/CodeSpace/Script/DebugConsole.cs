@@ -13,7 +13,7 @@ public class DebugConsole : MonoBehaviour
     [SerializeField] private Color consoleFontColor;
     [SerializeField] private InteractiveText interactiveTextPrefab;
     private const int MAXLOG = 6;
-    private int consoleLogNum;
+    private int consoleLogNum = 0;
     private InteractiveText[] consoleLogs = new InteractiveText[MAXLOG];
     private float counter = 0f;
     private int[] displayedInterference = new int[MAXLOG];
@@ -25,7 +25,6 @@ public class DebugConsole : MonoBehaviour
 
     private void Awake()
     {
-        consoleLogNum = 0;
         for (int i = 0; i < MAXLOG; i ++)
         {
             displayedInterference[i] = -1;
@@ -82,7 +81,7 @@ public class DebugConsole : MonoBehaviour
             }
             insertText.transform.localPosition = new Vector3(0, currentHeight, 0);
         }
-
+        Debug.Log("Num of logs in Debug Console: " + consoleLogNum);
     }
     public void InsertInterferenceLog(bool useSystemTime = true)
     {
