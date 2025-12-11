@@ -219,7 +219,6 @@ public class Player : MonoBehaviour
         if (transform.position.y < -5f)
         {
             playerHitPoint = 0;
-            isAlive = false;
             deadReason = "Falling";
         }
 
@@ -375,7 +374,7 @@ public class Player : MonoBehaviour
 
     private void DeadAction()
     {
-        // if (!isAlive) return; // 防止重复触发
+        if (!isAlive) return; // 防止重复触发
         
         isAlive = false;
         deadCount++;

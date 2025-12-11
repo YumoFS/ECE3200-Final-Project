@@ -6,8 +6,16 @@ using UnityEngine;
 public class NamePool
 {
     public string[] firstNamePool = {
-        "Brave", "Shadow", "Iron", "Swift", "Dark", 
-        "Mystic", "Wild", "Steel", "Frost", "Flame"
+        "Henry", "Otto", "Conrad", "Frederick", "Louis",
+        "Albert", "Ernest", "Godfrey", "Herman", "Lothar",
+        "Manfred", "Rudolph", "Siegfried", "Werner", "William",
+        "Adelaide", "Agnes", "Beatrix", "Bertha", "Elisabeth",
+        "Gertrude", "Hedwig", "Hildegard", "Irmgard", "Judith",
+        "Kunigunde", "Matilda", "Mechthild", "Sophia", "Uta",
+        "John", "Peter", "Paul", "Andrew", "Maximilian",
+        "Leopold", "George", "Christopher", "Nicholas", "Albert",
+        "Bruno", "Ekkehard", "Volmar", "Gebhard", "Hartmann",
+        "Ingo", "Joachim", "Karl", "Lambert", "Matthias"
     };
     
     public string[] middleNamePool = {
@@ -15,8 +23,7 @@ public class NamePool
     };
     
     public string[] lastNamePool = {
-        "Mountain", "Forest", "Sea", "Sky", "Night",
-        "Sun", "Moon", "Star", "River", "Stone"
+        "Welf"
     };
     
     public string[] titlePool = {

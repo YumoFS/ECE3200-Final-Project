@@ -131,7 +131,7 @@ public class PendulumController : MonoBehaviour
         }
         
         playerComponent.deadReason = "Pendulum";
-        playerComponent.isAlive = false;
+        // playerComponent.isAlive = false;
         playerComponent.playerHitPoint -= damage;
     }
     

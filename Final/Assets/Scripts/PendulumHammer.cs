@@ -11,7 +11,7 @@ public class PendulumHammer : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             player.deadReason = "Pendulum";
-            player.isAlive = false;
+            // player.isAlive = false;
             player.playerHitPoint -= 10;
         }
     }

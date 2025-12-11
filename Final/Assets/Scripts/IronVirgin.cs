@@ -35,7 +35,7 @@ public class IronVirgin : Interactable
     public override void Interact()
     {
         player.deadReason = "IronVirgin";
-        player.isAlive = false;
+        // player.isAlive = false;
         player.playerHitPoint = 0;
     }
     
