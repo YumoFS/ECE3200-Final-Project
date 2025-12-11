@@ -19,10 +19,14 @@ public class TopDetector : MonoBehaviour
             if (chosenText.isInteractive)
             {
                 chosenText.SetColorToChosen();
-                if (lastChosenText != chosenText && lastChosenText != null)
+                if (lastChosenText != null)
                 {
-                    lastChosenText.SetColorToInit();
+                    if (lastChosenText != chosenText)
+                    {
+                        lastChosenText.SetColorToInit();
+                    }
                 }
+                
                 lastChosenText = chosenText;
             }
         }

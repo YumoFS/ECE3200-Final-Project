@@ -77,8 +77,7 @@ public class DestroyedData : MonoBehaviour
         filledText.DestroySelf();
         text.gameObject.SetActive(true);
         isFilled = false;
-        debugConsole.InsertLog($"<color=#{UnityEngine.ColorUtility.ToHtmlStringRGBA(failedPromptColor)}>Storage missed at {attributeToRepair}. Trying to repair...</color>");
-        debugConsole.InsertLog($"<color=#{UnityEngine.ColorUtility.ToHtmlStringRGBA(failedPromptColor)}>Failed to repair {attributeToRepair}.</color>");
+        debugConsole.InsertLog($"<color=#{UnityEngine.ColorUtility.ToHtmlStringRGBA(failedPromptColor)}>Storage missed at {attributeToRepair}.</color>");
     }
 
     /******* Public Methods ******/
