@@ -7,12 +7,18 @@ public class TorchBlock : Interactable
     [SerializeField] private float floatHeight = 0.5f; // 文字框浮起高度
     [SerializeField] private float floatSpeed = 2f; // 浮起速度
     [SerializeField] private Player player;
+    private PlayerData playerData = DataManager.Instance.LoadCheckpoint();
     
     private Vector3 originalPosition;
     private bool isFloating = false;
     
     private void Start()
     {
+        if (!playerData.hasKilledBoss)
+        {
+            gameObject.SetActive(false);
+        }
+        
         if (interactionPrompt != null)
         {
             originalPosition = interactionPrompt.transform.position;

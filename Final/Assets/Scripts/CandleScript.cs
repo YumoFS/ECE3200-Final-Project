@@ -11,7 +11,7 @@ public class CandleScript : Interactable
     [SerializeField] private GameObject candleWithHole;
     [SerializeField] private GameObject candleWithoutHole;
     [SerializeField] private GameObject candleCollider;
-    PlayerData playerData = DataManager.Instance.LoadCheckpoint();
+    private PlayerData playerData = DataManager.Instance.LoadCheckpoint();
     
     private void Start()
     {
