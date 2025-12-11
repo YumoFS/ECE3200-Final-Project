@@ -10,11 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 943366790186630409, guid: d5608f670c3a8ae459547e8cdef16361, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -17.65
       objectReference: {fileID: 0}
     - target: {fileID: 943366790186630409, guid: d5608f670c3a8ae459547e8cdef16361, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.26
       objectReference: {fileID: 0}
     - target: {fileID: 943366790186630409, guid: d5608f670c3a8ae459547e8cdef16361, type: 3}
       propertyPath: m_LocalPosition.z
@@ -52,9 +52,50 @@ PrefabInstance:
       propertyPath: m_Name
       value: IronVirgin
       objectReference: {fileID: 0}
+    - target: {fileID: 6919029575775472392, guid: d5608f670c3a8ae459547e8cdef16361, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cee928bc1b701494989998dc283315ea, type: 3}
+    - target: {fileID: 8012788714631674045, guid: d5608f670c3a8ae459547e8cdef16361, type: 3}
+      propertyPath: m_Size.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8012788714631674045, guid: d5608f670c3a8ae459547e8cdef16361, type: 3}
+      propertyPath: m_Size.y
+      value: 2.65
+      objectReference: {fileID: 0}
+    - target: {fileID: 8012788714631674045, guid: d5608f670c3a8ae459547e8cdef16361, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.13
+      objectReference: {fileID: 0}
+    - target: {fileID: 8012788714631674045, guid: d5608f670c3a8ae459547e8cdef16361, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8320330149947493152, guid: d5608f670c3a8ae459547e8cdef16361, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8320330149947493152, guid: d5608f670c3a8ae459547e8cdef16361, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8320330149947493152, guid: d5608f670c3a8ae459547e8cdef16361, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8320330149947493152, guid: d5608f670c3a8ae459547e8cdef16361, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.529
+      objectReference: {fileID: 0}
+    - target: {fileID: 8320330149947493152, guid: d5608f670c3a8ae459547e8cdef16361, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 3629826268938144181, guid: d5608f670c3a8ae459547e8cdef16361, type: 3}
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7834247006631179204, guid: d5608f670c3a8ae459547e8cdef16361, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 3197959424573196108, guid: d5608f670c3a8ae459547e8cdef16361, type: 3}

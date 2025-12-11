@@ -14,6 +14,17 @@ public class PlayerData
     public int deadCount = 0;
     public int winCount = 0;
     public int playerAttackPower = 1;
+
+    //结局对话相关
+    public bool hasArrivedEmptyThrone = false;
+    public bool hasDeadByTraps = false;
+    public bool hasDeadbyIronVirgin = false;
+    public bool hasInteractedWithTorch = false;
+    public bool hasKilledBoss = false;
+    public bool hasFoundTheCandleHole = false;
+    public bool hasPassedCodeSpace = false;
+    public bool hasKilledBossByTorch = false;
+    public bool hasPassedHeaven = false;
     
     // 存档点信息
     public Vector3 checkpointPosition;

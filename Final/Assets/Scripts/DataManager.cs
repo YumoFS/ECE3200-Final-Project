@@ -233,4 +233,96 @@ public class DataManager : MonoBehaviour
         
         SaveToFile();
     }
+
+    public void SetEndingFlag(string flagName, bool value)
+    {
+        if (currentPlayerData == null) return;
+        
+        switch (flagName)
+        {
+            case "hasArrivedEmptyThrone":
+                currentPlayerData.hasArrivedEmptyThrone = value;
+                break;
+            case "hasDeadByTraps":
+                currentPlayerData.hasDeadByTraps = value;
+                break;
+            case "hasDeadbyIronVirgin":
+                currentPlayerData.hasDeadbyIronVirgin = value;
+                break;
+            case "hasInteractedWithTorch":
+                currentPlayerData.hasInteractedWithTorch = value;
+                break;
+            case "hasKilledBoss":
+                currentPlayerData.hasKilledBoss = value;
+                break;
+            case "hasFoundTheCandleHole":
+                currentPlayerData.hasFoundTheCandleHole = value;
+                break;
+            case "hasPassedCodeSpace":
+                currentPlayerData.hasPassedCodeSpace = value;
+                break;
+            case "hasKilledBossByTorch":
+                currentPlayerData.hasKilledBossByTorch = value;
+                break;
+            case "hasPassedHeaven":
+                currentPlayerData.hasPassedHeaven = value;
+                break;
+            default:
+                Debug.LogWarning($"未知的结局标志: {flagName}");
+                return;
+        }
+        
+        SaveToFile();
+        Debug.Log($"结局标志已更新: {flagName} = {value}");
+    }
+
+    // 获取结局相关属性
+    public bool GetEndingFlag(string flagName)
+    {
+        if (currentPlayerData == null) return false;
+        
+        switch (flagName)
+        {
+            case "hasArrivedEmptyThrone":
+                return currentPlayerData.hasArrivedEmptyThrone;
+            case "hasDeadByTraps":
+                return currentPlayerData.hasDeadByTraps;
+            case "hasDeadbyIronVirgin":
+                return currentPlayerData.hasDeadbyIronVirgin;
+            case "hasInteractedWithTorch":
+                return currentPlayerData.hasInteractedWithTorch;
+            case "hasKilledBoss":
+                return currentPlayerData.hasKilledBoss;
+            case "hasFoundTheCandleHole":
+                return currentPlayerData.hasFoundTheCandleHole;
+            case "hasPassedCodeSpace":
+                return currentPlayerData.hasPassedCodeSpace;
+            case "hasKilledBossByTorch":
+                return currentPlayerData.hasKilledBossByTorch;
+            case "hasPassedHeaven":
+                return currentPlayerData.hasPassedHeaven;
+            default:
+                Debug.LogWarning($"未知的结局标志: {flagName}");
+                return false;
+        }
+    }
+
+    // 重置所有结局标志（开始新游戏时使用）
+    public void ResetEndingFlags()
+    {
+        if (currentPlayerData == null) return;
+        
+        currentPlayerData.hasArrivedEmptyThrone = false;
+        currentPlayerData.hasDeadByTraps = false;
+        currentPlayerData.hasDeadbyIronVirgin = false;
+        currentPlayerData.hasInteractedWithTorch = false;
+        currentPlayerData.hasKilledBoss = false;
+        currentPlayerData.hasFoundTheCandleHole = false;
+        currentPlayerData.hasPassedCodeSpace = false;
+        currentPlayerData.hasKilledBossByTorch = false;
+        currentPlayerData.hasPassedHeaven = false;
+        
+        SaveToFile();
+        Debug.Log("所有结局标志已重置");
+    }
 }

@@ -1,15 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class TorchBlock : Interactable
+public class CandleScript : Interactable
 {
     [SerializeField] private float floatHeight = 0.5f; // 文字框浮起高度
     [SerializeField] private float floatSpeed = 2f; // 浮起速度
-    [SerializeField] private Player player;
     
     private Vector3 originalPosition;
     private bool isFloating = false;
+
+    [SerializeField] private GameObject candleWithHole;
+    [SerializeField] private GameObject candleWithoutHole;
     
     private void Start()
     {
@@ -36,13 +36,13 @@ public class TorchBlock : Interactable
     
     public override void Interact()
     {
-        player.hasTorch = true;
-        Destroy(gameObject);
         if (DataManager.Instance != null)
         {
-            DataManager.Instance.SetEndingFlag("hasInteractedWithTorch", true);
+            DataManager.Instance.SetEndingFlag("hasFoundTheCandleHole", true);
         }
-        Debug.Log("与方块交互！");
+
+        candleWithHole.SetActive(false);
+        candleWithoutHole.SetActive(true);
     }
     
     private void OnTriggerEnter2D(Collider2D other)

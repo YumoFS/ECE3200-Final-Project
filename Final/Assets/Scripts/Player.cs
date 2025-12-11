@@ -409,6 +409,18 @@ public class Player : MonoBehaviour
         StartCoroutine(RespawnAfterDeath());
     }
 
+    private void SetEndingFlag(string flagName)
+    {
+        if (DataManager.Instance != null)
+        {
+            DataManager.Instance.SetEndingFlag(flagName, true);
+        }
+        else
+        {
+            Debug.LogWarning("DataManager未找到，无法设置结局标志");
+        }
+    }
+
     private IEnumerator RespawnAfterDeath()
     {
         // 等待死亡动画播放
@@ -493,10 +505,22 @@ public class Player : MonoBehaviour
         return playerName;
     }
 
-    private void DeadByFalling() { }
-    private void DeadByPendulum() { }
-    private void DeadBySpikes() { }
-    private void DeadByIronVirgin() { }
+    private void DeadByFalling()
+    {
+        SetEndingFlag("hasDeadByTraps");
+    }
+    private void DeadByPendulum()
+    {
+        SetEndingFlag("hasDeadByTraps");
+    }
+    private void DeadBySpikes()
+    {
+        SetEndingFlag("hasDeadByTraps");
+    }
+    private void DeadByIronVirgin()
+    {
+        SetEndingFlag("hasDeadByIronVirgin");
+    }
     
     private void HandleMovement()
     {
