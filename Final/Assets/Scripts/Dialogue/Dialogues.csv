@@ -1,7 +1,7 @@
 Tag\ID\Character\Content\JumpTo\Condition\To_new_scene
 end\0\\\\\
 content\1\Contract\What do you want to ask?\2\\
-option\2\\[image_Signals1]\11\hasArrivedEmptyThrone\
+option\2\\[image_Signals1]\11\hasArrivedEmptyThrone == true\
 option\3\\[image_Signals2]\15\hasDeadByTraps\
 option\4\\[image_Signals3]\18\hasDeadbyIronVirgin\
 option\5\\[image_Signals4]\20\hasInteractedWithTorch\
