@@ -53,6 +53,7 @@ public class DeathTransitionSceneController : MonoBehaviour
             winCount = data.winCount;
             playerName = data.playerName;
             currentTime = data.currentTime;
+            if (deathCount == 0) deathCount = 4;
         }
         
         // 获取死亡原因

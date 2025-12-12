@@ -243,7 +243,7 @@ public class DataManager : MonoBehaviour
     }
     
     // 保存到文件（如果需要持久化存档）
-    private void SaveToFile()
+    public void SaveToFile()
     {
         try
         {
@@ -406,5 +406,67 @@ public class DataManager : MonoBehaviour
         
         SaveToFile();
         Debug.Log("所有结局标志已重置");
+    }
+    
+    // 新增方法：死亡4次后重置死亡次数和重生点
+    public void ResetAfterFourDeaths(Player player)
+    {
+        if (currentPlayerData == null || player == null) return;
+        
+        // 清零死亡次数
+        currentPlayerData.deadCount = 0;
+        player.deadCount = 0;
+        
+        // 重置重生点到初始场景
+        ResetCheckpointToInitialScene(player);
+        
+        // 保存数据
+        SaveToFile();
+        
+        Debug.Log("死亡4次，已重置死亡次数和重生点");
+    }
+
+    // 重置检查点到初始场景
+    private void ResetCheckpointToInitialScene(Player player)
+    {
+        if (currentPlayerData == null) return;
+        
+        // 设置场景名
+        currentPlayerData.checkpointSceneName = "CastleOutside";
+        
+        // 获取初始场景的出生点位置
+        Vector3 initialSpawnPosition = GetInitialSpawnPosition();
+        currentPlayerData.checkpointPosition = initialSpawnPosition;
+        
+        // 保存玩家当前状态（除了deadCount）
+        if (player != null)
+        {
+            // 保存除deadCount外的所有属性
+            currentPlayerData.playerName = player.playerName;
+            currentPlayerData.playerHitPoint = player.playerHitPointMax; // 恢复满血
+            currentPlayerData.playerHitPointMax = player.playerHitPointMax;
+            currentPlayerData.hasTorch = player.hasTorch;
+            currentPlayerData.winCount = player.winCount;
+            currentPlayerData.playerAttackPower = player.playerAttackPower;
+            currentPlayerData.currentTime = player.currentTime;
+            currentPlayerData.deadCount = player.deadCount;
+        }
+        
+        Debug.Log($"重生点已重置到: CastleOutside, 位置: {initialSpawnPosition}");
+    }
+
+    // 获取初始场景出生点位置
+    private Vector3 GetInitialSpawnPosition()
+    {
+        // 如果有SceneSpawnManager，尝试获取CastleOutside的出生点
+        if (SceneSpawnManager.Instance != null)
+        {
+            Vector3 spawnPos = SceneSpawnManager.Instance.GetSpawnPositionForScene("CastleOutside");
+            if (spawnPos != Vector3.zero)
+                return spawnPos;
+        }
+        
+        // 默认出生点（您可以根据需要修改）
+        return new Vector3(-28, 0.1f, 0);
     }
 }

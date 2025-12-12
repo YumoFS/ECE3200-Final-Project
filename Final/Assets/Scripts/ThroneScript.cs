@@ -5,6 +5,9 @@ using UnityEngine;
 public class ThroneScript : MonoBehaviour
 {
     [SerializeField] private GameObject Enemy;
+    [SerializeField] private GameObject gameInputs;
+    [SerializeField] private GameObject dialogueCanvas;
+    // [SerializeField] private DataManager dataManager;
     
 
     void Start()
@@ -23,6 +26,10 @@ public class ThroneScript : MonoBehaviour
                 {
                     DataManager.Instance.SetEndingFlag("hasArrivedEmptyThrone", true);
                 }
+                DataManager.Instance.currentPlayerData.checkpointSceneName = "CastleOutside";
+                DataManager.Instance.SaveToFile();
+                gameInputs.SetActive(false);
+                dialogueCanvas.SetActive(true);
             }
         }
     }

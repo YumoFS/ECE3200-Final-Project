@@ -37,6 +37,7 @@ public class IronVirgin : Interactable
         player.deadReason = "IronVirgin";
         // player.isAlive = false;
         player.playerHitPoint = 0;
+        DataManager.Instance.SetEndingFlag("hasDeadbyIronVirgin", true);
     }
     
     private void OnTriggerEnter2D(Collider2D other)

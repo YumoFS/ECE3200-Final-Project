@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class EnemyHealth : MonoBehaviour
 {
@@ -9,7 +10,8 @@ public class EnemyHealth : MonoBehaviour
     [Header("死亡效果")]
     public GameObject deathEffect;
     public bool isDead = false;
-    
+
+
     void Start()
     {
         currentHealth = maxHealth;
@@ -40,7 +42,10 @@ public class EnemyHealth : MonoBehaviour
         {
             DataManager.Instance.SetEndingFlag("hasKilledBoss", true);
         }
-        
+        if (DataManager.Instance.currentPlayerData.hasInteractedWithTorch)
+        {
+            DataManager.Instance.SetEndingFlag("hasKilledBossByTorch", true);
+        }
         // 播放死亡动画
         // if (animator != null)
         //     animator.SetBool("IsDead", true);
@@ -56,6 +61,8 @@ public class EnemyHealth : MonoBehaviour
         
         // 销毁敌人（可延迟销毁以播放动画）
         Destroy(gameObject, 1f);
+
+        SceneManager.LoadScene("CastleOutside");
         
         Debug.Log(gameObject.name + " 被击败!");
     }

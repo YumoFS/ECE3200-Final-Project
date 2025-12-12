@@ -105,4 +105,24 @@ public class SceneSpawnManager : MonoBehaviour
         currentSceneName = sceneName;
         InitializeSpawnPoint();
     }
+
+    public Vector3 GetSpawnPositionForScene(string sceneName)
+    {
+        foreach (var info in sceneSpawnInfos)
+        {
+            if (info.sceneName == sceneName)
+            {
+                if (info.defaultSpawnPoint != null)
+                    return info.defaultSpawnPoint.position;
+                else if (info.spawnPoints.Length > 0)
+                    return info.spawnPoints[0].position;
+                else
+                    return Vector3.zero;
+            }
+        }
+        
+        // 如果没有找到配置，尝试在场景中查找
+        Debug.LogWarning($"未找到场景 {sceneName} 的出生点配置");
+        return Vector3.zero;
+    }
 }

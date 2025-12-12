@@ -28,6 +28,14 @@ public class SceneTransitionManager : MonoBehaviour
     {
         SavePlayerDataBeforeTransition();
         
+        // 重置任何死亡状态
+        Player player = FindObjectOfType<Player>();
+        if (player != null)
+        {
+            player.isAlive = true;
+            player.deadReason = "";
+        }
+        
         StartCoroutine(TransitionToScene(sceneName));
     }
 

@@ -119,6 +119,7 @@ public class Player : MonoBehaviour
         {
             Debug.LogWarning("DataManager 未找到，使用默认值初始化");
             InitializeWithDefaultValues();
+            ResetPlayerState(); // 确保状态重置
             return;
         }
         
@@ -142,7 +143,8 @@ public class Player : MonoBehaviour
             transform.position = spawnPosition;
             playerInitialPosition = spawnPosition;
             
-            isAlive = true;
+            // 重置状态
+            ResetPlayerState();
             
             Debug.Log($"进入新场景，保留玩家数据，出生点: {spawnPosition}");
         }
@@ -335,7 +337,8 @@ public class Player : MonoBehaviour
             animator.SetTrigger("Respawn");
         }
         
-        isAlive = true;
+        // 重置状态
+        ResetPlayerState();
         
         Debug.Log($"从存档点复活 - 新名字: {playerName}, 生命值: {playerHitPoint}, 火炬: {hasTorch}");
     }
@@ -528,6 +531,12 @@ public class Player : MonoBehaviour
         deadCount++;
         currentTime += UnityEngine.Random.Range(20, 25);
 
+        if (deadCount >= 4 && DataManager.Instance != null)
+        {
+            DataManager.Instance.ResetAfterFourDeaths(this);
+            // 注意：deadCount在ResetAfterFourDeaths中已经被清零
+        }
+
         // 触发死亡动画
         if (animator != null)
         {
@@ -713,5 +722,151 @@ public class Player : MonoBehaviour
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(attackPosition.position, playerAttackDistance);
         }
+    }
+
+    // 新增方法：完全重置玩家状态
+    public void ResetPlayerState()
+    {
+        Debug.Log("重置玩家状态");
+        
+        // 重置所有与死亡相关的状态
+        isAlive = true;
+        deadReason = "";
+        isAttacking = false;
+        attackCooldownTimer = 0f;
+        
+        // 确保生命值有效
+        if (playerHitPoint <= 0)
+        {
+            playerHitPoint = playerHitPointMax;
+        }
+        
+        // 重置动画状态
+        if (animator != null)
+        {
+            animator.ResetTrigger("Die");
+            animator.ResetTrigger("Attack");
+            animator.ResetTrigger("Respawn");
+            animator.SetBool("IsByVirgin", false);
+            animator.SetBool("IsAttacking", false);
+            animator.SetFloat("Speed", 0f);
+            animator.SetBool("IsGrounded", true);
+            
+            // 强制切换到Idle状态
+            animator.Play("Idle");
+        }
+        
+        // 重置物理状态
+        if (rb != null)
+        {
+            rb.velocity = Vector2.zero;
+            rb.angularVelocity = 0f;
+            rb.isKinematic = false;
+        }
+        
+        Debug.Log($"玩家状态重置完成: 生命值={playerHitPoint}/{playerHitPointMax}, isAlive={isAlive}");
+    }
+
+    // 保存当前数据并返回第一个场景
+    public void SaveAndReturnToFirstScene()
+    {
+        Debug.Log("保存数据并返回第一个场景");
+        
+        // 1. 保存当前玩家数据到DataManager
+        SavePlayerDataToDataManager();
+        
+        // 2. 设置检查点到第一个场景
+        SetCheckpointToFirstScene();
+        
+        // 3. 重置玩家状态，避免死亡循环
+        ResetPlayerState();
+        
+        // 4. 加载第一个场景
+        LoadFirstScene();
+    }
+
+    // 设置检查点到第一个场景
+    private void SetCheckpointToFirstScene()
+    {
+        // 获取第一个场景的名称（根据您的游戏设定）
+        string firstSceneName = "CastleOutside"; // 您可以根据需要修改
+        
+        // 获取第一个场景的出生点位置
+        Vector3 firstSceneSpawnPosition = GetFirstSceneSpawnPosition(firstSceneName);
+        
+        // 更新当前场景名为第一个场景
+        currentSceneName = firstSceneName;
+        
+        // 保存到DataManager
+        if (DataManager.Instance != null)
+        {
+            DataManager.Instance.SaveCheckpoint(
+                firstSceneSpawnPosition,
+                firstSceneName,
+                this
+            );
+            Debug.Log($"检查点已设置为: {firstSceneName}, 位置: {firstSceneSpawnPosition}");
+        }
+        else
+        {
+            Debug.LogError("DataManager 实例为空，无法保存检查点");
+        }
+    }
+
+    // 获取第一个场景的出生点位置
+    private Vector3 GetFirstSceneSpawnPosition(string sceneName)
+    {
+        // 优先从SceneSpawnManager获取
+        if (SceneSpawnManager.Instance != null)
+        {
+            // 如果有按场景名获取出生点的方法
+            if (HasMethod(SceneSpawnManager.Instance, "GetSpawnPositionForScene"))
+            {
+                System.Reflection.MethodInfo method = SceneSpawnManager.Instance.GetType().GetMethod("GetSpawnPositionForScene");
+                if (method != null)
+                {
+                    return (Vector3)method.Invoke(SceneSpawnManager.Instance, new object[] { sceneName });
+                }
+            }
+            
+            // 否则使用当前方法
+            Vector3 spawnPos = SceneSpawnManager.Instance.GetSpawnPosition();
+            if (spawnPos != Vector3.zero)
+            {
+                return spawnPos;
+            }
+        }
+        
+        // 默认出生点（根据您的第一个场景调整）
+        return new Vector3(0f, 1f, 0f);
+    }
+
+    // 加载第一个场景
+    private void LoadFirstScene()
+    {
+        string firstSceneName = "CastleOutside"; // 与上面保持一致
+        
+        Debug.Log($"正在加载第一个场景: {firstSceneName}");
+        
+        // 如果有场景过渡管理器，使用它
+        if (SceneTransitionManager.Instance != null)
+        {
+            SceneTransitionManager.Instance.LoadSceneWithSave(firstSceneName);
+        }
+        else
+        {
+            // 直接加载场景
+            UnityEngine.SceneManagement.SceneManager.LoadScene(firstSceneName);
+        }
+        
+        // 重置玩家状态（场景加载后会再次调用）
+        ResetPlayerState();
+    }
+
+    // 辅助方法：检查对象是否有某个方法
+    private bool HasMethod(object objectToCheck, string methodName)
+    {
+        var type = objectToCheck.GetType();
+        return type.GetMethod(methodName) != null;
     }
 }
