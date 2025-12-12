@@ -504,7 +504,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6850941898646307790, guid: 721caadd7a3e9aa4fb3225f6faaf4ec8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.41
+      value: 2.7
       objectReference: {fileID: 0}
     - target: {fileID: 6850941898646307790, guid: 721caadd7a3e9aa4fb3225f6faaf4ec8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -776,7 +776,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6850941898646307790, guid: 721caadd7a3e9aa4fb3225f6faaf4ec8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.41
+      value: 2.7
       objectReference: {fileID: 0}
     - target: {fileID: 6850941898646307790, guid: 721caadd7a3e9aa4fb3225f6faaf4ec8, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2160,9 +2160,9 @@ MonoBehaviour:
   target: {fileID: 1721043508}
   smoothSpeed: 0.125
   offset: {x: 0, y: 0, z: -10}
-  useBounds: 0
-  minX: -10
-  maxX: 10
+  useBounds: 1
+  minX: -21
+  maxX: 3
   minY: -5
   maxY: 5
   usePrediction: 0
