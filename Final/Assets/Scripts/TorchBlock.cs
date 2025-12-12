@@ -4,16 +4,18 @@ using UnityEngine;
 
 public class TorchBlock : Interactable
 {
-    [SerializeField] private float floatHeight = 0.5f; // 文字框浮起高度
-    [SerializeField] private float floatSpeed = 2f; // 浮起速度
+    // [SerializeField] private float floatHeight = 0.5f; // 文字框浮起高度
+    // [SerializeField] private float floatSpeed = 2f; // 浮起速度
     [SerializeField] private Player player;
-    private PlayerData playerData = DataManager.Instance.LoadCheckpoint();
+    private PlayerData playerData;
     
-    private Vector3 originalPosition;
-    private bool isFloating = false;
+    // private Vector3 originalPosition;
+    // private bool isFloating = false;
     
     private void Start()
     {
+        playerData = DataManager.Instance.LoadCheckpoint();
+
         if (!playerData.hasKilledBoss)
         {
             gameObject.SetActive(false);
@@ -56,7 +58,7 @@ public class TorchBlock : Interactable
         if (other.CompareTag("Player"))
         {
             OnPlayerEnter();
-            isFloating = true;
+            // isFloating = true;
         }
     }
     
@@ -65,7 +67,7 @@ public class TorchBlock : Interactable
         if (other.CompareTag("Player"))
         {
             OnPlayerExit();
-            isFloating = false;
+            // isFloating = false;
             
             // 重置位置
             // if (interactionPrompt != null)

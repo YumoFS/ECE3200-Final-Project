@@ -253,37 +253,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &4316821434928583198
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3296045332767160252}
-  m_Layer: 7
-  m_Name: InteractionPrompt
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3296045332767160252
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4316821434928583198}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 2301932023944795675}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4725147088794672938
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,7 +362,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3296045332767160252}
   - {fileID: 8699779445514767795}
   - {fileID: 141256108916599926}
   - {fileID: 2130656941283421756}
@@ -508,9 +476,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 966172bf0e870aa42bb1085617455353, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionText: Press 'F' to Interact
-  interactionPrompt: {fileID: 4316821434928583198}
   floatHeight: 0.5
   floatSpeed: 2
   candleWithHole: {fileID: 3443708655121891331}
   candleWithoutHole: {fileID: 1923454230077242671}
+  candleCollider: {fileID: 0}

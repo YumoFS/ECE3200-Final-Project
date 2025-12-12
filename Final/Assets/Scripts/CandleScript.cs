@@ -2,24 +2,25 @@ using UnityEngine;
 
 public class CandleScript : Interactable
 {
-    [SerializeField] private float floatHeight = 0.5f; // 文字框浮起高度
-    [SerializeField] private float floatSpeed = 2f; // 浮起速度
+    // [SerializeField] private float floatHeight = 0.5f; // 文字框浮起高度
+    // [SerializeField] private float floatSpeed = 2f; // 浮起速度
     
-    private Vector3 originalPosition;
-    private bool isFloating = false;
+    // private Vector3 originalPosition;
+    // private bool isFloating = false;
 
     [SerializeField] private GameObject candleWithHole;
     [SerializeField] private GameObject candleWithoutHole;
     [SerializeField] private GameObject candleCollider;
-    private PlayerData playerData = DataManager.Instance.LoadCheckpoint();
+    private PlayerData playerData;
     
     private void Start()
     {
-        if (interactionPrompt != null)
-        {
-            originalPosition = interactionPrompt.transform.position;
-            interactionPrompt.SetActive(false);
-        }
+        // if (interactionPrompt != null)
+        // {
+        //     originalPosition = interactionPrompt.transform.position;
+        //     interactionPrompt.SetActive(false);
+        // }
+        playerData = DataManager.Instance.LoadCheckpoint();
 
         if (playerData.hasArrivedEmptyThrone && playerData.hasDeadbyIronVirgin && playerData.hasDeadByTraps
          && playerData.hasInteractedWithTorch && playerData.hasKilledBoss)
@@ -51,15 +52,15 @@ public class CandleScript : Interactable
     private void Update()
     {
         // 控制提示框的浮动动画
-        if (isFloating && interactionPrompt != null)
-        {
-            float newY = originalPosition.y + Mathf.Sin(Time.time * floatSpeed) * floatHeight;
-            interactionPrompt.transform.position = new Vector3(
-                interactionPrompt.transform.position.x,
-                newY,
-                interactionPrompt.transform.position.z
-            );
-        }
+        // if (isFloating && interactionPrompt != null)
+        // {
+        //     float newY = originalPosition.y + Mathf.Sin(Time.time * floatSpeed) * floatHeight;
+        //     interactionPrompt.transform.position = new Vector3(
+        //         interactionPrompt.transform.position.x,
+        //         newY,
+        //         interactionPrompt.transform.position.z
+        //     );
+        // }
     }
     
     public override void Interact()
@@ -78,7 +79,7 @@ public class CandleScript : Interactable
         if (other.CompareTag("Player"))
         {
             OnPlayerEnter();
-            isFloating = true;
+            // isFloating = true;
         }
     }
     
@@ -87,13 +88,13 @@ public class CandleScript : Interactable
         if (other.CompareTag("Player"))
         {
             OnPlayerExit();
-            isFloating = false;
+            // isFloating = false;
             
             // 重置位置
-            if (interactionPrompt != null)
-            {
-                interactionPrompt.transform.position = originalPosition;
-            }
+            // if (interactionPrompt != null)
+            // {
+            //     interactionPrompt.transform.position = originalPosition;
+            // }
         }
     }
 }
