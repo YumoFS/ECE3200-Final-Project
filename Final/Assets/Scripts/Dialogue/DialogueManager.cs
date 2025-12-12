@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class DiaLogmanager : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class DiaLogmanager : MonoBehaviour
 
     /// 选项按钮
     public GameObject optionButton;
+    public GameObject optionImageButton;
 
     /// 选项按钮父节点
     public Transform buttonGroup;
@@ -68,24 +70,24 @@ public class DiaLogmanager : MonoBehaviour
     {
         for(int i=0;i<dialogRows.Length;i++)
         {
-        string[] cells = dialogRows[i].Split('\\');
-        if (cells[0] == "content" && int.Parse(cells[1]) == dialogIndex)
-        {
-            UpdateText(cells[2], cells[3]);
+            string[] cells = dialogRows[i].Split('\\');
+            if (cells[0] == "content" && int.Parse(cells[1]) == dialogIndex)
+            {
+                UpdateText(cells[2], cells[3]);
 
-            dialogIndex = int.Parse(cells[4]);
-            next.gameObject.SetActive(true);
-            break;
-        }
-        else if (cells[0]== "option" && int.Parse(cells[1]) == dialogIndex)
-        {
-            next.gameObject.SetActive(false);//隐藏原来的按钮
-            GenerateOption(i);
-        }
-        else if (cells[0] == "end" && int.Parse(cells[i]) == dialogIndex)
-        {
-            Debug.Log("剧情结束");//这里结束
-        }
+                dialogIndex = int.Parse(cells[4]);
+                next.gameObject.SetActive(true);
+                break;
+            }
+            else if (cells[0]== "option" && int.Parse(cells[1]) == dialogIndex)
+            {
+                next.gameObject.SetActive(false);//隐藏原来的按钮
+                GenerateOption(i);
+            }
+            else if (cells[0] == "end" && int.Parse(cells[i]) == dialogIndex)
+            {
+                Debug.Log("剧情结束");//这里结束
+            }
         }
     }
 
@@ -115,6 +117,88 @@ public class DiaLogmanager : MonoBehaviour
         for(int i=0;i < buttonGroup.childCount; i++)
         {
             Destroy(buttonGroup.GetChild(i).gameObject);
+        }
+    }
+
+    // 提取图片名称
+    private string ExtractImageName(string text)
+    {
+        int start = text.IndexOf("[image_");
+        if (start == -1) return "";
+
+        int end = text.IndexOf("]", start);
+        if (end == -1) return "";
+
+        return text.Substring(start + 7, end - start - 7);
+    }
+
+    // 加载图片精灵
+    private Sprite LoadImageSprite(string imageName)
+    {
+        try
+        {
+            // 假设图片在 Resources/Images/ 文件夹下
+            string path = "Assets/Sprites/OccultismSignals/" + imageName;
+            Sprite sprite = Resources.Load<Sprite>(path);
+            
+            if (sprite == null)
+            {
+                Debug.LogWarning($"图片加载失败: {path}");
+                return null;
+            }
+            
+            return sprite;
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"加载图片时出错: {e.Message}");
+            return null;
+        }
+    }
+
+    // 生成图片选项按钮
+    public void GenerateImageOption(int _index)
+    {
+        string[] cells = dialogRows[_index].Split('\\');
+        if (cells[0] == "option")
+        {
+            GameObject button = Instantiate(optionImageButton, buttonGroup);
+
+            // 提取图片名称
+            string imageName = ExtractImageName(cells[3]);
+            Sprite sprite = LoadImageSprite(imageName);
+
+            // 设置按钮图片
+            Image buttonImage = button.GetComponent<Image>();
+            if (buttonImage != null && sprite != null)
+            {
+                buttonImage.sprite = sprite;
+            }
+
+            // 设置按钮文本（如果有）
+            TMP_Text buttonText = button.GetComponentInChildren<TMP_Text>();
+            if (buttonText != null)
+            {
+                string text = cells[3].Replace($"[image_{imageName}]", "").Trim();
+                buttonText.text = text;
+            }
+
+            // 绑定按钮事件
+            button.GetComponent<Button>().onClick.AddListener(
+                delegate { OnOptionClick(int.Parse(cells[4])); }
+            );
+
+            // 添加悬停提示
+            ButtonHoverEffect hoverEffect = button.GetComponent<ButtonHoverEffect>();
+            if (hoverEffect == null)
+            {
+                hoverEffect = button.AddComponent<ButtonHoverEffect>();
+                hoverEffect.hoverScale = 1.1f;
+                hoverEffect.hoverColor = new Color(1f, 1f, 1f, 0.8f);
+            }
+
+            // 继续生成下一个选项
+            GenerateImageOption(_index + 1);
         }
     }
 }

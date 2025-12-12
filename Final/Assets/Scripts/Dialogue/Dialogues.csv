@@ -1,15 +1,15 @@
 Tag\ID\Character\Content\JumpTo\Condition\To_new_scene
 end\0\\\\\
 content\1\Contract\What do you want to ask?\2\\
-option\2\\[image_������]\11\hasArrivedEmptyThrone == true\
-option\3\\[image_�����İ���]\15\hasDeadByTraps\
-option\4\\[image_õ��ʮ���뽣]\18\hasDeadbyIronVirgin\
-option\5\\[image_�ʻ�Ŭ˹֮ì�������]\20\hasInteractedWithTorch\
-option\6\\[image_��������â��]\23\hasKilledBoss\
-option\7\\[image_ȫ��֮��]\26\hasFoundTheCandleHole\
-option\8\\[image_÷����¡������]\29\hasPassedCodeSpace\
-option\9\\[image_��������]\31\hasKilledBossByTorch\
-option\10\\[image_�հ�ʯ��]\34\hasPassedHeaven\
+option\2\\[image_Signals1]\11\hasArrivedEmptyThrone == true\
+option\3\\[image_Signals2]\15\hasDeadByTraps\
+option\4\\[image_Signals3]\18\hasDeadbyIronVirgin\
+option\5\\[image_Signals4]\20\hasInteractedWithTorch\
+option\6\\[image_Signals5]\23\hasKilledBoss\
+option\7\\[image_Signals6]\26\hasFoundTheCandleHole\
+option\8\\[image_Signals7]\29\hasPassedCodeSpace\
+option\9\\[image_Signals8]\31\hasKilledBossByTorch\
+option\10\\[image_Signals9]\34\hasPassedHeaven\
 content\11\Lucis\What on earth is going on? Why is there nothing?\12\\
 content\12\Contract\You mean you haven't seen the devil?\13\\
 content\13\Contract\Demons only show up when people are in the greatest pain.\14\\
