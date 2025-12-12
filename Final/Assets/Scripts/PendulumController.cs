@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PendulumController : MonoBehaviour
@@ -42,7 +41,7 @@ public class PendulumController : MonoBehaviour
     {
         // 更新计时器
         timer += Time.deltaTime * swingSpeed;
-
+        
         // 计算当前角度
         float currentAngle = maxAngle * Mathf.Sin(timer * 2f * Mathf.PI);
         
@@ -62,9 +61,6 @@ public class PendulumController : MonoBehaviour
         // 更新位置和旋转
         transform.position = newPosition;
         transform.rotation = rotation;
-
-        
-
     }
     
     // void OnTriggerEnter2D(Collider2D other)
@@ -93,13 +89,12 @@ public class PendulumController : MonoBehaviour
             }
             
             DealDamageToPlayer(other.gameObject, contactPoint);
-        }  
+        }
     }
 
     // 或者如果是碰撞体（不是触发器），修改 OnCollisionEnter2D
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("At OnCollisionEnter2D");
         if (collision.gameObject.CompareTag("Player"))
         {
             // 记录碰撞信息到调试系统
@@ -118,7 +113,6 @@ public class PendulumController : MonoBehaviour
     
     void DealDamageToPlayer(GameObject player, Vector2 contactPoint)
     {
-        Debug.Log("Dealed Damage At Pedulum Controller");
         Player playerComponent = player.GetComponent<Player>();
         // 播放效果
         if (hitEffect != null)
