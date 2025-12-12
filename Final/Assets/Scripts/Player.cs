@@ -59,7 +59,7 @@ public class Player : MonoBehaviour
     [SerializeField] private Animator animator;
     
     [Header("交互相关")]
-    [SerializeField] private float interactionRange = 1.5f;
+    [SerializeField] private float interactionRange = .3f;
     [SerializeField] private LayerMask interactableLayer;
 
     [Header("玩家数据相关")]

@@ -102,23 +102,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isAlive: 0
   deadReason: 
-  playerHitPoint: 1
-  hasTorch: 0
   deadCount: 0
   winCount: 0
+  currentTime: 0
   gameInputs: {fileID: 0}
   moveSpeed: 6
   jumpForce: 15
   jumpNumMax: 1
   playerInitialPosition: {x: 0, y: 0, z: 0}
   animator: {fileID: 5448609827899035054}
-  interactionRange: 1.5
+  interactionRange: 0.5
   interactableLayer:
     serializedVersion: 2
     m_Bits: 128
   playerAttackPower: 1
   playerAttackDistance: 2
   attackCooldown: 0.5
+  playerName: 
+  playerHitPointMax: 1
   attackPosition: {fileID: 0}
   enemyLayers:
     serializedVersion: 2

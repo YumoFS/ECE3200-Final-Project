@@ -9,33 +9,35 @@ using UnityEngine.SceneManagement;
 public class DiaLogmanager : MonoBehaviour
 {
   /// 对话内容文本，csv格式
-    public TextAsset dialogDataFile;
+    [SerializeField] private TextAsset dialogDataFile;
 
     /// 角色名字文本
-    public TMP_Text nameText;
+    [SerializeField] private TMP_Text nameText;
 
     /// 对话内容文本
-    public TMP_Text dialogText;
+    [SerializeField] private TMP_Text dialogText;
 
     /// 当前对话索引值
-    public int dialogIndex;
+    [SerializeField] private int dialogIndex;
 
     /// 对话文本按行分割
-    public string[] dialogRows;
+    [SerializeField] private string[] dialogRows;
 
-    public GameObject dialogueCanvas;
+    [SerializeField] private GameObject dialogueCanvas;
 
     /// 继续按钮
-    public Button next;
+    [SerializeField] private Button next;
 
     /// 选项按钮
-    public GameObject optionButton;
-    public GameObject optionImageButton;
+    [SerializeField] private GameObject optionButton;
+    [SerializeField] private GameObject optionImageButton;
 
     /// 选项按钮父节点
-    public Transform buttonGroup;
+    [SerializeField] private Transform buttonGroup;
 
     private PlayerData playerData;
+    private GameManager gameManager;
+    private int optionCount;
 
     private void Awake()
     {
@@ -45,8 +47,10 @@ public class DiaLogmanager : MonoBehaviour
     void Start()
     {
         playerData = DataManager.Instance.LoadCheckpoint();
+        optionCount = 0;
         ReadText(dialogDataFile);
         ShowDiaLogRow();
+        gameManager = GameManager.Instance;
     }
 
   // Update is called once per frame
@@ -56,13 +60,13 @@ public class DiaLogmanager : MonoBehaviour
     }
 
   //更新文本信息
-    public void UpdateText(string _name, string _text)
+    private void UpdateText(string _name, string _text)
     {
         nameText.text = _name;
         dialogText.text = _text;
     }
 
-    public void ReadText(TextAsset _textAsset)
+    private void ReadText(TextAsset _textAsset)
     {
         dialogRows = _textAsset.text.Split('\n');//以换行来分割
         // foreach(var row in rows)
@@ -72,7 +76,7 @@ public class DiaLogmanager : MonoBehaviour
         Debug.Log("读取成果");
     }
 
-    public void ShowDiaLogRow()
+    private void ShowDiaLogRow()
     {
         for(int i=0;i<dialogRows.Length;i++)
         {
@@ -100,7 +104,8 @@ public class DiaLogmanager : MonoBehaviour
             else if (cells[0] == "end" && int.Parse(cells[1]) == dialogIndex)
             {
                 dialogIndex = 1;
-                dialogueCanvas.SetActive(false);
+                // dialogueCanvas.SetActive(false);
+                gameManager.LoadGame();
                 Debug.Log("剧情结束");//这里结束
             }
             else if (cells[0] == "scene" && int.Parse(cells[1]) == dialogIndex)
@@ -110,12 +115,12 @@ public class DiaLogmanager : MonoBehaviour
         }
     }
 
-    public void OnClickNext()
+    private void OnClickNext()
     {
         ShowDiaLogRow();
     }
 
-    public void GenerateOption(int _index)//生成按钮
+    private void GenerateOption(int _index)//生成按钮
     {
         string[] cells = dialogRows[_index].Split('\\');
         if (cells[0] == "option")
@@ -129,7 +134,7 @@ public class DiaLogmanager : MonoBehaviour
         }
     }
 
-    public void OnOptionClick(int _id)
+    private void OnOptionClick(int _id)
     {
         dialogIndex = _id;
         ShowDiaLogRow();
@@ -175,13 +180,14 @@ public class DiaLogmanager : MonoBehaviour
     }
 
     // 生成图片选项按钮
-    public void GenerateImageOption(int _index)
+    private void GenerateImageOption(int _index)
     {
         string[] cells = dialogRows[_index].Split('\\');
         if (cells[0] == "option")
         {
             if (hasEndings(cells[5]))
             {
+                optionCount++;
                 GameObject button = Instantiate(optionImageButton, buttonGroup);
 
                 // 提取图片名称
@@ -220,6 +226,11 @@ public class DiaLogmanager : MonoBehaviour
 
             // 继续生成下一个选项
             GenerateImageOption(_index + 1);
+        }
+        else if (optionCount == 0)
+        {
+            dialogIndex = 60;
+            ShowDiaLogRow();
         }
     }
 
