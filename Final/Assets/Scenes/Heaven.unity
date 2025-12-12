@@ -965,17 +965,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1043735786}
-  m_LocalRotation: {x: -0, y: -0, z: -0.040465478, w: 0.999181}
+  m_LocalRotation: {x: -0, y: -0, z: -0.026650138, w: 0.9996449}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.97504, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 726552468}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -4.638}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -3.054}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2, y: 229}
-  m_SizeDelta: {x: 1400, y: 300}
+  m_AnchoredPosition: {x: -35, y: 129}
+  m_SizeDelta: {x: 1300, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1043735788
 MonoBehaviour:
@@ -1003,16 +1003,8 @@ MonoBehaviour:
 
 
     Article 1: From the moment this Covenant
-    takes effect, no angel from Heaven or demon from Hell may directly descend, set
-    foot, or manifest in the mortal realm in their true form or identity.
-
-
-    Article
-    2: Neither side may intervene directly in the natural order, major events, or
-    individual fates of the mortal realm. For example, they may not directly perform
-    miracles, directly inflict curses, or directly possess or seize the will of mortals.
-    punishment. Their power will be sealed, and they will be exiled into the rifts
-    of time and space.'
+    takes effect, no angel from Heaven or demon from Hell may directly descend in
+    the mortal realm.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1402,6 +1394,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 272323244219615406, guid: 3200868163d6e2f4ab32c9db5e86d5af, type: 3}
+      propertyPath: maxHealth
+      value: 114514
+      objectReference: {fileID: 0}
+    - target: {fileID: 451282716671591631, guid: 3200868163d6e2f4ab32c9db5e86d5af, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1196856104886159691, guid: 3200868163d6e2f4ab32c9db5e86d5af, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.7
@@ -1568,7 +1568,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1488527726}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1749985b9e1fcaa49937acdad6890b7c, type: 3}
   m_Name: 
@@ -1627,17 +1627,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1768991274}
-  m_LocalRotation: {x: -0, y: -0, z: 0.033836246, w: 0.99942744}
+  m_LocalRotation: {x: -0, y: -0, z: 0.014618918, w: 0.9998932}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.95067, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 726552468}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 3.878}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 1.675}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 738, y: 275}
-  m_SizeDelta: {x: 1400, y: 300}
+  m_AnchoredPosition: {x: 721, y: 191}
+  m_SizeDelta: {x: 1300, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1768991276
 MonoBehaviour:
@@ -1659,14 +1659,17 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Article 3: Both sides may only attempt to influence the path of the mortal
-    realm through indirect means.
+  m_text: 'Article 2: Neither side may intervene directly in the natural order, major
+    events, or individual fates of the mortal realm.
 
 
-    Article 4: Any angel or demon who violates
-    this Covenant by attempting to directly interfere with the mortal realm or enter
-    it in their true form will receive the highest level of punishment. Their power
-    will be sealed, and they will be exiled into the rifts of time and space.'
+    Article 3: Both sides
+    may only attempt to influence the path of the mortal realm through indirect means.
+
+
+    Article
+    4: Any angel or demon who violates this Covenant will receive the highest level
+    of punishment.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
