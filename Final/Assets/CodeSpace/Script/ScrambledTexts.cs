@@ -22,7 +22,7 @@ public class ScrambledTexts : MonoBehaviour
     private void Update()
     {
         counter += Time.deltaTime;
-        if (counter >= 5f)
+        if (counter >= 7f)
         {
             counter = 0;
             RebuildMatrix();

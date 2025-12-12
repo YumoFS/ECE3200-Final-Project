@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RepairPercentage : MonoBehaviour
 {
@@ -37,6 +38,13 @@ public class RepairPercentage : MonoBehaviour
         }
         repairPercentage = currentRepairPercentage;
 
+        if (currentRepairPercentage == 1f)
+        {
+            DataManager.Instance.SetEndingFlag("hasPassedCodeSpace", true);
+            Debug.Log("Enter Start here");
+            SceneManager.LoadScene("Start");
+        }
+
         recoverCount -= Time.deltaTime;
         if (recoverCount <= 0f)
         {
@@ -71,7 +79,7 @@ public class RepairPercentage : MonoBehaviour
 
     private void DecreasePercentageText(float percentage)
     {
-        float percentageDot2f = (int)(percentage * 100) / (float)100f;
+        float percentageDot2f = (int)(percentage * 10000) / (float)100f;
         percentageText.SetTextContent(percentageDot2f.ToString() + "%", InteractiveText.DEFAULT_FONTSIZE);
         percentageText.SetNewInitColor(descendingColor);
         percentageText.SetTextColor(descendingColor);
