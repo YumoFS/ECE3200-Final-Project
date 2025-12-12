@@ -8,7 +8,7 @@ public class DataManager : MonoBehaviour
 {
     public static DataManager Instance { get; private set; }
     
-    [SerializeField] private PlayerData currentPlayerData;
+    public PlayerData currentPlayerData;
     
     // 新增：名字池配置
     [Header("随机名字配置")]

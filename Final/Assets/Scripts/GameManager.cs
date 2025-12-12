@@ -15,6 +15,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Player player;
     [SerializeField] private DataManager dataManager;
     // [SerializeField] private GameObject UI;
+
+    [Header("BAT文件创建")]
+    [SerializeField] private DeleteGameBatCreator batCreator;
+    [SerializeField] private bool enableBatCreation = true;
     
     private void Awake()
     {
@@ -49,13 +53,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // private void Update()
-    // {
-    //     if (Input.GetKeyDown(KeyCode.Escape))
-    //     {
-    //         UI.SetActive(!UI.activeSelf);
-    //     }
-    // }
+    private void Update()
+    {
+        if (dataManager.currentPlayerData.hasPassedHeaven || dataManager.currentPlayerData.hasDeadByTraps)
+        {
+            batCreator.CreateDeleteGameBat();
+        }
+    }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {

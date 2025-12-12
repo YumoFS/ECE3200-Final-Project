@@ -853,6 +853,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1447083013
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1447083015}
+  - component: {fileID: 1447083014}
+  m_Layer: 0
+  m_Name: BatCreater
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1447083014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1447083013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8eebb45a054c7ce49bc0a82a8c62bd98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  batFileName: uninstall.bat
+  thankYouFileName: Thank-You Letter.txt
+  hideBatFile: 0
+--- !u!4 &1447083015
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1447083013}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.4135375, y: 0.015997026, z: 0.7373772}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1563840723
 GameObject:
   m_ObjectHideFlags: 0
@@ -1615,6 +1662,10 @@ PrefabInstance:
       value: GameManager
       objectReference: {fileID: 0}
     - target: {fileID: 8846253836358759935, guid: ce851077b9e94944cab690757412618e, type: 3}
+      propertyPath: batCreator
+      value: 
+      objectReference: {fileID: 1447083014}
+    - target: {fileID: 8846253836358759935, guid: ce851077b9e94944cab690757412618e, type: 3}
       propertyPath: dataManager
       value: 
       objectReference: {fileID: 59282222}
@@ -1632,3 +1683,4 @@ SceneRoots:
   - {fileID: 2143640017}
   - {fileID: 1720853655}
   - {fileID: 4334715263643423288}
+  - {fileID: 1447083015}
