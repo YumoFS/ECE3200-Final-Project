@@ -132,11 +132,11 @@ public class DeathTransitionSceneController : MonoBehaviour
             // 如果没有存档点，返回主菜单
             if (SceneTransitionManager.Instance != null)
             {
-                SceneTransitionManager.Instance.LoadSceneWithSave("MainMenu");
+                SceneTransitionManager.Instance.LoadSceneWithSave("Start");
             }
             else
             {
-                SceneManager.LoadScene("MainMenu");
+                SceneManager.LoadScene("Start");
             }
             return;
         }

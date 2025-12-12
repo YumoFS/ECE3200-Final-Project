@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     [Header("引用")]
     [SerializeField] private Player player;
     [SerializeField] private DataManager dataManager;
+    // [SerializeField] private GameObject UI;
     
     private void Awake()
     {
@@ -21,6 +22,7 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+            // DontDestroyOnLoad(UI);
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
@@ -46,7 +48,15 @@ public class GameManager : MonoBehaviour
             player = FindObjectOfType<Player>();
         }
     }
-    
+
+    // private void Update()
+    // {
+    //     if (Input.GetKeyDown(KeyCode.Escape))
+    //     {
+    //         UI.SetActive(!UI.activeSelf);
+    //     }
+    // }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log($"场景加载: {scene.name}");
