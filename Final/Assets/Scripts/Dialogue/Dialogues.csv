@@ -27,12 +27,12 @@ content\24\Contract\"If demons were so easy to kill, heaven would have long flat
 content\25\Contract\You can go back and check the situation.\0\\
 content\26\Satan\You actually managed to find this place!\27\\
 content\27\Contract\It seems that your "program" still has some bugs after all.\28\\
-content\28\Satan\"Nonsense! Lucis, don't even think about escaping from here!"\0\\CodeSpace
+content\28\Satan\"Nonsense! Lucis, don't even think about escaping from here!"\57\\
 content\29\Lucis\What place is that?\30\\
 content\30\Contract\I don't know. That place is not within the jurisdiction of the contract between heaven and hell.\0\\
 content\31\Lucis\"This time, Satan should have really been killed, right?"\32\\
 content\32\Contract\Congratulations! You have obtained...\33\\
-content\33\Satan\Congratulations! You have obtained the chance to go to heaven.\0\\Heaven
+content\33\Satan\Congratulations! You have obtained the chance to go to heaven.\58\\
 content\34\Lucis\What on earth are you? I saw exactly the same thing as you in heaven.\35\\
 content\35\Contract\"I am a contract signed by heaven and hell, recording the rules that all living beings in heaven and hell abide by."\36\\
 content\36\Contract\You have ascended to heaven. Every pure soul has a chance to ask me a question.\37\\
@@ -40,11 +40,11 @@ option\37\\What on earth are you? I saw exactly the same thing as you in heaven.
 option\38\\Who am I?\42\\
 option\39\\What is Lucis?\46\\
 content\40\Lucis\Could you tell me the way to deal with the devil?\41\\
-content\41\Contract\"I can send you to hell, where you can defeat the demons with the sacred flame."\0\\Hell
+content\41\Contract\"I can send you to hell, where you can defeat the demons with the sacred flame."\59\\
 content\42\Contract\"Lucis - the creation of hell, Satan's most outstanding work."\43\\
 content\43\Contract\"Because he does not belong to the devil himself, he can come to the human world without being bound by a contract and collect the souls of suffering for Satan."\44\\
 content\44\Satan\Are you delusional about challenging me?\45\\
-content\45\Satan\"Come on, I'll wait for you in hell."\0\\Hell
+content\45\Satan\"Come on, I'll wait for you in hell."\59\\
 content\46\Contract\"A game, a game created by Satan."\47\\
 content\47\Contract\"To be precise, this is not a 'game', but an interactive interface of a cross-time and space contract."\48\\
 content\48\Contract\"Satan is the initiator, the demons of hell are the source of energy, and human players... It is the ""active performer"" in the terms."\49\\
@@ -56,3 +56,6 @@ content\53\Contract\Clause 7.3: 'Voluntariness is defined by the act itself.\54\
 content\54\Contract\"You start the game, you keep playing, you pursue the ending - these actions are voluntary in terms of contractual law. "\55\\
 content\55\Lucis\"I know you're reading this dialogue. You were the first to get here. I beg you, ruin this game."\56\\
 content\56\Lucis\Delete that file named exe on your side. All the souls here will no longer suffer.\0\\
+scene\57\\\\\CodeSpace
+scene\58\\\\\Heaven
+scene\59\\\\\Hell

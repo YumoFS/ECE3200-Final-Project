@@ -850,6 +850,7 @@ MonoBehaviour:
   dialogRows: []
   next: {fileID: 1534745831}
   optionButton: {fileID: 5723031664625220107, guid: b26bddabca111704cb1fa160a7ba51b8, type: 3}
+  optionImageButton: {fileID: 7527559025502297119, guid: 68028376cd807094eb58ae231781555e, type: 3}
   buttonGroup: {fileID: 723845828}
 --- !u!4 &1697268518
 Transform:

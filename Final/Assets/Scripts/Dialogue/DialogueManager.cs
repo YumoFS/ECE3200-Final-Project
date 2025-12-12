@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using UnityEngine.SceneManagement;
 
 public class DiaLogmanager : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class DiaLogmanager : MonoBehaviour
 
     /// 对话文本按行分割
     public string[] dialogRows;
+
+    public GameObject dialogueCanvas;
 
     /// 继续按钮
     public Button next;
@@ -82,11 +85,24 @@ public class DiaLogmanager : MonoBehaviour
             else if (cells[0]== "option" && int.Parse(cells[1]) == dialogIndex)
             {
                 next.gameObject.SetActive(false);//隐藏原来的按钮
-                GenerateOption(i);
+                if (cells[3].Contains("[image_"))
+                {
+                    GenerateImageOption(i);
+                }
+                else
+                {
+                    GenerateOption(i);
+                }
             }
-            else if (cells[0] == "end" && int.Parse(cells[i]) == dialogIndex)
+            else if (cells[0] == "end" && int.Parse(cells[1]) == dialogIndex)
             {
+                dialogIndex = 1;
+                dialogueCanvas.SetActive(false);
                 Debug.Log("剧情结束");//这里结束
+            }
+            else if (cells[0] == "scene" && int.Parse(cells[1]) == dialogIndex)
+            {
+                SceneManager.LoadScene(cells[6].Trim(new char[] { ' ', '\t', '\n', '\r', '\"', '\'' }));
             }
         }
     }
@@ -137,8 +153,7 @@ public class DiaLogmanager : MonoBehaviour
     {
         try
         {
-            // 假设图片在 Resources/Images/ 文件夹下
-            string path = "Assets/Sprites/OccultismSignals/" + imageName;
+            string path = "OccultismSignals/" + imageName;
             Sprite sprite = Resources.Load<Sprite>(path);
             
             if (sprite == null)
