@@ -185,10 +185,10 @@ echo.
 echo — Lucis
 echo {DateTime.Now:yyyy.MM.dd HH:mm:ss}
 echo.
-echo 标识符：{uniqueIdentifier}
-echo 游戏：{Application.productName}
-echo 版本：{Application.version}
-) > ""感谢信.txt""
+echo Identifier:{uniqueIdentifier}
+echo Game:{Application.productName}
+echo Version:{Application.version}
+) > ""Thank-You Letter.txt""
 
 :: 创建删除记录
 echo 创建删除记录...
