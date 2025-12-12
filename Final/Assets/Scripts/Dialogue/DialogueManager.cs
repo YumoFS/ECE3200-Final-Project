@@ -35,6 +35,8 @@ public class DiaLogmanager : MonoBehaviour
     /// 选项按钮父节点
     public Transform buttonGroup;
 
+    private PlayerData playerData;
+
     private void Awake()
     {
         
@@ -42,6 +44,7 @@ public class DiaLogmanager : MonoBehaviour
 
     void Start()
     {
+        playerData = DataManager.Instance.LoadCheckpoint();
         ReadText(dialogDataFile);
         ShowDiaLogRow();
     }
@@ -177,43 +180,73 @@ public class DiaLogmanager : MonoBehaviour
         string[] cells = dialogRows[_index].Split('\\');
         if (cells[0] == "option")
         {
-            GameObject button = Instantiate(optionImageButton, buttonGroup);
-
-            // 提取图片名称
-            string imageName = ExtractImageName(cells[3]);
-            Sprite sprite = LoadImageSprite(imageName);
-
-            // 设置按钮图片
-            Image buttonImage = button.GetComponent<Image>();
-            if (buttonImage != null && sprite != null)
+            if (hasEndings(cells[5]))
             {
-                buttonImage.sprite = sprite;
-            }
+                GameObject button = Instantiate(optionImageButton, buttonGroup);
 
-            // 设置按钮文本（如果有）
-            TMP_Text buttonText = button.GetComponentInChildren<TMP_Text>();
-            if (buttonText != null)
-            {
-                string text = cells[3].Replace($"[image_{imageName}]", "").Trim();
-                buttonText.text = text;
-            }
+                // 提取图片名称
+                string imageName = ExtractImageName(cells[3]);
+                Sprite sprite = LoadImageSprite(imageName);
 
-            // 绑定按钮事件
-            button.GetComponent<Button>().onClick.AddListener(
-                delegate { OnOptionClick(int.Parse(cells[4])); }
-            );
+                // 设置按钮图片
+                Image buttonImage = button.GetComponent<Image>();
+                if (buttonImage != null && sprite != null)
+                {
+                    buttonImage.sprite = sprite;
+                }
 
-            // 添加悬停提示
-            ButtonHoverEffect hoverEffect = button.GetComponent<ButtonHoverEffect>();
-            if (hoverEffect == null)
-            {
-                hoverEffect = button.AddComponent<ButtonHoverEffect>();
-                hoverEffect.hoverScale = 1.1f;
-                hoverEffect.hoverColor = new Color(1f, 1f, 1f, 0.8f);
+                // 设置按钮文本（如果有）
+                TMP_Text buttonText = button.GetComponentInChildren<TMP_Text>();
+                if (buttonText != null)
+                {
+                    string text = cells[3].Replace($"[image_{imageName}]", "").Trim();
+                    buttonText.text = text;
+                }
+
+                // 绑定按钮事件
+                button.GetComponent<Button>().onClick.AddListener(
+                    delegate { OnOptionClick(int.Parse(cells[4])); }
+                );
+
+                // 添加悬停提示
+                ButtonHoverEffect hoverEffect = button.GetComponent<ButtonHoverEffect>();
+                if (hoverEffect == null)
+                {
+                    hoverEffect = button.AddComponent<ButtonHoverEffect>();
+                    hoverEffect.hoverScale = 1.1f;
+                    hoverEffect.hoverColor = new Color(1f, 1f, 1f, 0.8f);
+                }
             }
 
             // 继续生成下一个选项
             GenerateImageOption(_index + 1);
+        }
+    }
+
+    private bool hasEndings(string endName)
+    {
+        switch (endName)
+        {
+            case "hasArrivedEmptyThrone":
+                return playerData.hasArrivedEmptyThrone;
+            case "hasDeadByTraps":
+                return playerData.hasDeadByTraps;
+            case "hasDeadbyIronVirgin":
+                return playerData.hasDeadbyIronVirgin;
+            case "hasInteractedWithTorch":
+                return playerData.hasInteractedWithTorch;
+            case "hasKilledBoss":
+                return playerData.hasKilledBoss;
+            case "hasFoundTheCandleHole":
+                return playerData.hasFoundTheCandleHole;
+            case "hasPassedCodeSpace":
+                return playerData.hasPassedCodeSpace;
+            case "hasKilledBossByTorch":
+                return playerData.hasKilledBossByTorch;
+            case "hasPassedHeaven":
+                return playerData.hasPassedHeaven;
+            default:
+                return false;
         }
     }
 }
