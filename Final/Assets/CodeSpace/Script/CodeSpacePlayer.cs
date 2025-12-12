@@ -75,7 +75,7 @@ public class CodeSpacePlayer : MonoBehaviour
         InteractiveText carryingText = carryPoint.GetComponentInChildren<InteractiveText>();
         carryingText.transform.SetParent(null, true);
         isCarrying = false;
-        carryingText.SetDisappearCount(1.5f);
+        carryingText.SetDisappearCount(2f);
     }
 
 
