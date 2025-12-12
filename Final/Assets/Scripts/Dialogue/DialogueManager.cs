@@ -1,196 +1,120 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
-public class DialogueManager : MonoBehaviour
+public class DiaLogmanager : MonoBehaviour
 {
-    public static DialogueManager Instance;
-    
-    [Header("UI引用")]
-    public GameObject dialoguePanel;
-    public TMPro.TextMeshProUGUI speakerNameText;
-    public TMPro.TextMeshProUGUI dialogueText;
-    public UnityEngine.UI.Image speakerPortrait;
-    public UnityEngine.UI.Button continueButton;
-    
-    [Header("设置")]
-    public float autoAdvanceDelay = 2f;      // 自动前进延迟
-    
-    private Queue<Dialogue.DialogueLine> dialogueQueue;
-    public Dialogue currentDialogue;
-    private Dialogue.DialogueLine currentLine;
-    private bool isTyping = false;
-    private Coroutine typingCoroutine;
-    
-    // 事件
-    public static System.Action<Dialogue> OnDialogueStart;
-    public static System.Action<Dialogue> OnDialogueEnd;
-    public static System.Action<Dialogue.DialogueLine> OnLineStart;
-    public static System.Action<Dialogue.DialogueLine> OnLineComplete;
-    
-    void Awake()
+  /// 对话内容文本，csv格式
+    public TextAsset dialogDataFile;
+
+    /// 角色名字文本
+    public TMP_Text nameText;
+
+    /// 对话内容文本
+    public TMP_Text dialogText;
+
+    /// 当前对话索引值
+    public int dialogIndex;
+
+    /// 对话文本按行分割
+    public string[] dialogRows;
+
+    /// 继续按钮
+    public Button next;
+
+    /// 选项按钮
+    public GameObject optionButton;
+
+    /// 选项按钮父节点
+    public Transform buttonGroup;
+
+    private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
         
-        dialogueQueue = new Queue<Dialogue.DialogueLine>();
-        
-        // 绑定继续按钮
-        if (continueButton != null)
-        {
-            continueButton.onClick.AddListener(AdvanceDialogue);
-        }
     }
-    
+
+    void Start()
+    {
+        ReadText(dialogDataFile);
+        ShowDiaLogRow();
+    }
+
+  // Update is called once per frame
     void Update()
     {
-        // 键盘控制
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return))
-        {
-            AdvanceDialogue();
-        }
         
-        // 跳过对话（长按）
-        if (Input.GetKey(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Space))
+    }
+
+  //更新文本信息
+    public void UpdateText(string _name, string _text)
+    {
+        nameText.text = _name;
+        dialogText.text = _text;
+    }
+
+    public void ReadText(TextAsset _textAsset)
+    {
+        dialogRows = _textAsset.text.Split('\n');//以换行来分割
+        // foreach(var row in rows)
+        //{
+        // string[] cell = row.Split(',');
+        // }
+        Debug.Log("读取成果");
+    }
+
+    public void ShowDiaLogRow()
+    {
+        for(int i=0;i<dialogRows.Length;i++)
         {
-            SkipDialogue();
+        string[] cells = dialogRows[i].Split('\\');
+        if (cells[0] == "content" && int.Parse(cells[1]) == dialogIndex)
+        {
+            UpdateText(cells[2], cells[3]);
+
+            dialogIndex = int.Parse(cells[4]);
+            next.gameObject.SetActive(true);
+            break;
+        }
+        else if (cells[0]== "option" && int.Parse(cells[1]) == dialogIndex)
+        {
+            next.gameObject.SetActive(false);//隐藏原来的按钮
+            GenerateOption(i);
+        }
+        else if (cells[0] == "end" && int.Parse(cells[i]) == dialogIndex)
+        {
+            Debug.Log("剧情结束");//这里结束
+        }
         }
     }
-    
-    public void StartDialogue(Dialogue dialogue)
+
+    public void OnClickNext()
     {
-        if (dialoguePanel == null)
-        {
-            Debug.LogError("DialoguePanel未分配！");
-            return;
-        }
-        
-        currentDialogue = dialogue;
-        dialogueQueue.Clear();
-        
-        // 将对话行加入队列
-        foreach (var line in dialogue.dialogueLines)
-        {
-            dialogueQueue.Enqueue(line);
-        }
-        
-        // 显示UI
-        dialoguePanel.SetActive(true);
-        
-        // 触发事件
-        OnDialogueStart?.Invoke(dialogue);
-        dialogue.onDialogueStart?.Invoke();
-        
-        // 开始第一行对话
-        AdvanceDialogue();
+        ShowDiaLogRow();
     }
-    
-    public void AdvanceDialogue()
+
+    public void GenerateOption(int _index)//生成按钮
     {
-        if (isTyping)
+        string[] cells = dialogRows[_index].Split('\\');
+        if (cells[0] == "option")
         {
-            // 如果正在打字，立即完成
-            CompleteLine();
-            return;
-        }
-        
-        if (dialogueQueue.Count == 0)
-        {
-            EndDialogue();
-            return;
-        }
-        
-        currentLine = dialogueQueue.Dequeue();
-        StartCoroutine(DisplayLine(currentLine));
-    }
-    
-    IEnumerator DisplayLine(Dialogue.DialogueLine line)
-    {
-        isTyping = true;
-        
-        // 更新UI
-        speakerNameText.text = line.speakerName;
-        speakerPortrait.sprite = line.speakerPortrait;
-        dialogueText.text = "";
-        
-        // 触发行开始事件
-        OnLineStart?.Invoke(line);
-        line.onLineStart?.Invoke();
-        
-        // 播放语音
-        if (line.voiceClip != null)
-        {
-            AudioSource.PlayClipAtPoint(line.voiceClip, Camera.main.transform.position);
-        }
-        
-        // 逐字显示
-        foreach (char letter in line.dialogueText.ToCharArray())
-        {
-            dialogueText.text += letter;
-            
-            // 可以在这里添加打字音效
-            // PlayTypeSound();
-            
-            yield return new WaitForSeconds(line.textSpeed);
-        }
-        
-        CompleteLine();
-        
-        // 如果是自动前进，等待后自动下一句
-        if (currentDialogue.canBeSkipped == false)
-        {
-            yield return new WaitForSeconds(autoAdvanceDelay);
-            AdvanceDialogue();
+            GameObject button = Instantiate(optionButton, buttonGroup);
+
+            //绑定按钮事件
+            button.GetComponentInChildren<TMP_Text>().text = cells[3];
+            button.GetComponent<Button>().onClick.AddListener(delegate {OnOptionClick(int.Parse(cells[4]));});
+            GenerateOption(_index + 1);
         }
     }
-    
-    void CompleteLine()
+
+    public void OnOptionClick(int _id)
     {
-        if (typingCoroutine != null)
+        dialogIndex = _id;
+        ShowDiaLogRow();
+        for(int i=0;i < buttonGroup.childCount; i++)
         {
-            StopCoroutine(typingCoroutine);
+            Destroy(buttonGroup.GetChild(i).gameObject);
         }
-        
-        if (currentLine != null)
-        {
-            dialogueText.text = currentLine.dialogueText;
-            
-            // 触发行完成事件
-            OnLineComplete?.Invoke(currentLine);
-            currentLine.onLineComplete?.Invoke();
-        }
-        
-        isTyping = false;
-    }
-    
-    void SkipDialogue()
-    {
-        if (currentDialogue == null || !currentDialogue.canBeSkipped) return;
-        
-        EndDialogue();
-    }
-    
-    void EndDialogue()
-    {
-        dialoguePanel.SetActive(false);
-        
-        // 触发事件
-        OnDialogueEnd?.Invoke(currentDialogue);
-        currentDialogue.onDialogueEnd?.Invoke();
-        
-        currentDialogue = null;
-        isTyping = false;
-    }
-    
-    public bool IsDialogueActive()
-    {
-        return dialoguePanel != null && dialoguePanel.activeInHierarchy;
     }
 }
