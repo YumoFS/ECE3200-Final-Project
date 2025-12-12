@@ -1,0 +1,5 @@
+Tag\ID\Character\Content\JumpTo\Condition\To_new_scene
+end\0\\\\\
+content\1\Contract\Why is there only a throne here?\2\\
+content\2\Contract\Maybe I should go back and ask the contract about it.\3\\
+scene\3\\\\\CastleOutside
