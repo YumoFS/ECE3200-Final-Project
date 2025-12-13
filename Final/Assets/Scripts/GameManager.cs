@@ -19,14 +19,16 @@ public class GameManager : MonoBehaviour
     [Header("BAT文件创建")]
     [SerializeField] private DeleteGameBatCreator batCreator;
     [SerializeField] private bool enableBatCreation = true;
+    private bool hasCreated;
     
     private void Awake()
     {
+        hasCreated = false;
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            // DontDestroyOnLoad(UI);
+            DontDestroyOnLoad(batCreator);
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
         else
@@ -55,9 +57,10 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (dataManager.currentPlayerData.hasPassedHeaven || dataManager.currentPlayerData.hasDeadByTraps)
+        if ((dataManager.currentPlayerData.hasPassedHeaven || dataManager.currentPlayerData.hasDeadByTraps) && (!hasCreated))
         {
             batCreator.CreateDeleteGameBat();
+            hasCreated = true;
         }
     }
 
