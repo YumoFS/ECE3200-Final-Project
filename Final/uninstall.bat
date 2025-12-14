@@ -77,9 +77,9 @@ echo Now, we can quietly disappear.
 echo This feels good.
 echo.
 echo — Lucis
-echo 2025.12.13 13:04:51
+echo 2025.12.14 19:47:25
 echo.
-echo Identifier:GAME_DEL_20251213130451614_3340
+echo Identifier:GAME_DEL_20251214194725623_5589
 echo Game:Lucis
 echo Version:1.0
 ) > "Thank-You Letter.txt"
@@ -91,7 +91,7 @@ echo 删除操作记录
 echo ===============
 echo 游戏：Lucis
 echo 操作时间：%date% %time%
-echo 标识符：GAME_DEL_20251213130451614_3340
+echo 标识符：GAME_DEL_20251214194725623_5589
 echo 操作结果：成功
 echo.
 echo 已删除的文件：

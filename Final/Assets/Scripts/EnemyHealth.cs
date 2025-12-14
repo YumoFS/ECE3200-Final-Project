@@ -62,7 +62,8 @@ public class EnemyHealth : MonoBehaviour
         // 销毁敌人（可延迟销毁以播放动画）
         Destroy(gameObject, 1f);
 
-        SceneManager.LoadScene("CastleOutside");
+        // SceneManager.LoadScene("CastleOutside");
+        SceneTransitionManager.Instance.LoadSceneWithSave("CastleOutside");
         
         Debug.Log(gameObject.name + " 被击败!");
     }

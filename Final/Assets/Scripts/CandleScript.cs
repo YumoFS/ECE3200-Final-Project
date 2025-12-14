@@ -23,7 +23,7 @@ public class CandleScript : Interactable
         playerData = DataManager.Instance.LoadCheckpoint();
 
         if (playerData.hasArrivedEmptyThrone && playerData.hasDeadbyIronVirgin && playerData.hasDeadByTraps
-         && playerData.hasInteractedWithTorch && playerData.hasKilledBoss)
+        /* && playerData.hasInteractedWithTorch */&& playerData.hasKilledBoss)
         {
             if (!playerData.hasFoundTheCandleHole)
             {

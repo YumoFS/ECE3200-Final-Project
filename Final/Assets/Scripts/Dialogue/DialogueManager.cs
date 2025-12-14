@@ -110,7 +110,7 @@ public class DiaLogmanager : MonoBehaviour
             }
             else if (cells[0] == "scene" && int.Parse(cells[1]) == dialogIndex)
             {
-                SceneManager.LoadScene(cells[6].Trim(new char[] { ' ', '\t', '\n', '\r', '\"', '\'' }));
+                SceneTransitionManager.Instance.LoadSceneWithSave(cells[6].Trim(new char[] { ' ', '\t', '\n', '\r', '\"', '\'' }));
             }
         }
     }

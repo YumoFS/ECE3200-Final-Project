@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class GodScript : MonoBehaviour
 {
     private float currentTime = 0f;
-    private float targetTime = 30f;
+    private float targetTime = 15f;
 
     // Update is called once per frame
     void Update()
@@ -15,7 +15,8 @@ public class GodScript : MonoBehaviour
         if (currentTime >= targetTime)
         {
             DataManager.Instance.currentPlayerData.hasPassedHeaven = true;
-            SceneManager.LoadScene("CastleOutside");
+            // SceneManager.LoadScene("CastleOutside");
+            SceneTransitionManager.Instance.LoadSceneWithSave("CastleOutside");
         }
     }
 }

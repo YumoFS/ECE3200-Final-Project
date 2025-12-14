@@ -20,7 +20,7 @@ public class DataManager : MonoBehaviour
     [SerializeField] private float autoSaveInterval = 60f; // 自动保存间隔（秒）
     private float autoSaveTimer = 0f;
 
-    private List<string> nameHistory = new List<string>();
+    public List<string> nameHistory = new List<string>();
     
     private void Awake()
     {

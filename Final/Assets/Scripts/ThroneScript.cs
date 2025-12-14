@@ -15,7 +15,7 @@ public class ThroneScript : MonoBehaviour
         if (DataManager.Instance != null)
         {
             PlayerData currentPlayerData = DataManager.Instance.LoadCheckpoint();
-            if (currentPlayerData.deadCount > 2)
+            if (currentPlayerData.deadCount > 2 || currentPlayerData.hasKilledBoss)
             {
                 Enemy.SetActive(true);
                 Destroy(gameObject);

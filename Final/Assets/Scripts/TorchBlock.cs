@@ -16,7 +16,7 @@ public class TorchBlock : Interactable
     {
         playerData = DataManager.Instance.LoadCheckpoint();
 
-        if (!playerData.hasKilledBoss)
+        if (!playerData.hasPassedCodeSpace)
         {
             gameObject.SetActive(false);
         }

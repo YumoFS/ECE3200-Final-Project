@@ -33,7 +33,7 @@ public class SceneEntryManager : MonoBehaviour
         else
         {
             // 已经在入口场景，初始化新游戏或继续游戏
-            InitializeGame();
+            // InitializeGame();
         }
     }
     
@@ -84,7 +84,7 @@ public class SceneEntryManager : MonoBehaviour
         }
         
         // 加载第一个游戏场景
-        string firstScene = "Level1"; // 根据你的场景名修改
+        string firstScene = "CastleOutside"; // 根据你的场景名修改
         if (SceneTransitionManager.Instance != null)
         {
             SceneTransitionManager.Instance.LoadSceneWithSave(firstScene);
