@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if ((dataManager.currentPlayerData.hasPassedHeaven || dataManager.currentPlayerData.hasDeadByTraps) && (!hasCreated))
+        if ((dataManager.currentPlayerData.hasPassedHeaven /*|| dataManager.currentPlayerData.hasDeadByTraps*/) && (!hasCreated))
         {
             batCreator.CreateDeleteGameBat();
             hasCreated = true;
